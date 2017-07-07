@@ -18,7 +18,7 @@ class OPAuctionInstall(install):
         check_call(GULP)
 
 
-setup(name='openprocurement.auction.js',
+setup(name='openprocurement.auction.esco-js',
       version='0.0.1',
       description='frontend application for openprocurement.auction',
       classifiers=[
@@ -32,7 +32,7 @@ setup(name='openprocurement.auction.js',
       author='Quintagroup, Ltd.',
       author_email='info@quintagroup.com',
       license='Apache License 2.0',
-      url='https://github.com/yshalenyk/openprocurement.auction.js',
+      url='https://github.com/yshalenyk/openprocurement.auction.esco-js',
       include_package_data=True,
       zip_safe=False,
       cmdclass={
