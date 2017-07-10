@@ -16,7 +16,7 @@ angular.module('auction').controller('AuctionController',[
       return false;
     }
 
-    AuctionConfig.auction_doc_id = window.location.pathname.replace('/tenders/', '');
+    AuctionConfig.auction_doc_id = window.location.pathname.replace('/esco-tenders/', '');
 
     $scope.lang = 'uk';
     $rootScope.normilized = false;
