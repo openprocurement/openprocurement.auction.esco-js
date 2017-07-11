@@ -100,26 +100,6 @@ gulp.task('htmlPages', () => {
   }));
 });
 
-
-gulp.task('listingApp', () => {
-  return gulp.src(['./src/app/index.js',
-    './src/app/config.js',
-    './src/app/controllers/ListingCtrl.js'
-    ])
-    .pipe(concat('index_app_esco.js'))
-    .pipe(gulp.dest(config.buildDir));
-});
-
-
-gulp.task('archiveApp', () => {
-  return gulp.src(['./src/app/archive.js',
-    './src/app/config.js',
-    './src/app/controllers/ArchiveCtl.js'])
-    .pipe(concat('archive_app_esco.js'))
-    .pipe(gulp.dest(config.buildDir));
-});
-
-
 gulp.task('auctionApp', () => {
     return gulp.src(['./src/app/auction.js',
       './src/app/filters/*.js',
@@ -134,24 +114,12 @@ gulp.task('auctionApp', () => {
 });
 
 
-gulp.task('build', ['all-js', 'css', 'png-images', 'icons', 'htmlPages', 'listingApp', 'archiveApp', 'auctionApp', 'fonts'], () => {
+gulp.task('build', ['all-js', 'css', 'png-images', 'icons', 'htmlPages', 'auctionApp', 'fonts'], () => {
 
   let css = gulp.src(`${config.buildDir}/bundle.css`)
       .pipe(gulp.dest(config.outDir + '/static/css/'));
 
-  let listPage = gulp.src(`${config.buildDir}/index.html`)
-      .pipe(gulp.dest(config.outDir));
-
-  let listApp = gulp.src(`${config.buildDir}/index_app_esco.js`)
-      .pipe(gulp.dest(config.outDir + '/static/'));
-
   let vendor_js = gulp.src(`${config.buildDir}/vendor.js`)
-      .pipe(gulp.dest(config.outDir + '/static/'));
-
-  let archivePage = gulp.src(`${config.buildDir}/archive.html`)
-      .pipe(gulp.dest(config.outDir));
-
-  let archiveApp = gulp.src(`${config.buildDir}/archive_app_esco.js`)
       .pipe(gulp.dest(config.outDir + '/static/'));
 
   let auctionPage = gulp.src(`${config.buildDir}/tender.html`)
@@ -166,7 +134,6 @@ gulp.task('build', ['all-js', 'css', 'png-images', 'icons', 'htmlPages', 'listin
   let icons = gulp.src("build/img/*.png")
       .pipe(gulp.dest(config.outDir+'/static/img/'));
 
-
   let fonts = gulp.src("build/fonts/*")
       .pipe(gulp.dest(config.outDir+'/static/fonts/'));
  
@@ -174,7 +141,7 @@ gulp.task('build', ['all-js', 'css', 'png-images', 'icons', 'htmlPages', 'listin
       .pipe(gulp.dest(config.outDir+'/fonts/'));
 
 
-  return merge(css, png, fonts, vendor_js, listPage, listApp, auctionPage, auctionApp, archivePage, archiveApp, fonts, fonts2, icons);
+  return merge(css, png, fonts, vendor_js, auctionPage, auctionApp, fonts, fonts2, icons);
 });
 
 
