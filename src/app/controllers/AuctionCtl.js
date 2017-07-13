@@ -171,7 +171,7 @@ angular.module('auction').controller('AuctionController',[
       });
       $log.info({message: 'Start set_sse_timeout on event source', timeout: response_timeout});
       }, 20000);
-      
+
       evtSrc = new EventSource(sse_url + '/event_source', {withCredentials: true});
       $scope.restart_retries_events = 3;
       evtSrc.addEventListener('ClientsList', function(e) {
@@ -212,7 +212,7 @@ angular.module('auction').controller('AuctionController',[
             progress_timer: $rootScope.progres_timer
           });
         }
-        
+
       }, false);
       evtSrc.addEventListener('Identification', function(e) {
         if (response_timeout) {
@@ -383,33 +383,44 @@ angular.module('auction').controller('AuctionController',[
     $scope.warning_post_bid = function(){
       growl.error('Unable to place a bid. Check that no more than 2 auctions are simultaneously opened in your browser.');
     };
-    $scope.post_bid = function(bid) {
+    $scope.post_bid = function(contractDurationYears, contractDurationDays, yearlyPayments, yearlyPaymentsPercentage) {
+      contractDurationYears = contractDurationYears || $rootScope.form.contractDurationYears || 0;
+      contractDurationDays = contractDurationDays || $rootScope.form.contractDurationDays || 0;
+      yearlyPayments = yearlyPayments || $rootScope.form.yearlyPayments || 0;
+      yearlyPaymentsPercentage = yearlyPaymentsPercentage || $rootScope.form.yearlyPaymentsPercentage || 0;
       $log.info({
-        message: "Start post bid",
-        bid_data: parseFloat(bid) || parseFloat($rootScope.form.bid) || 0
+        'message': "Start post bid",
+        'contractDurationYears': contractDurationYears.toFixed(),
+        'contractDurationDays':  contractDurationDays.toFixed(),
+        'yearlyPayments':  yearlyPayments.toFixed(2),
+        'yearlyPaymentsPercentage':  yearlyPaymentsPercentage.toFixed(3)
       });
-      
-      if (parseFloat($rootScope.form.bid) == -1) {
-        var msg_id = Math.random();
-        $rootScope.alerts.push({
-          msg_id: msg_id,
-          type: 'danger',
-          msg: 'To low value'
-        });
-        $scope.auto_close_alert(msg_id);
-        return 0;
+
+      // XXX TODO Validation for to low value
+      if ($rootScope.form.contractDurationYears.toFixed() == -1 || $rootScope.form.contractDurationDays.toFixed() == -1 ||
+          $rootScope.form.yearlyPayments.toFixed() == -1 ||
+          $rootScope.form.yearlyPaymentsPercentage.toFixed() == -1) {
+            var msg_id = Math.random();
+            $rootScope.alerts.push({
+              msg_id: msg_id,
+              type: 'danger',
+              msg: 'To low value'
+            });
+            $scope.auto_close_alert(msg_id);
+            return 0;
       }
+      // XXX TODO Calculation bid amount
       if ($rootScope.form.BidsForm.$valid) {
-        $rootScope.alerts = [];
-        var bid_amount = parseFloat(bid) || parseFloat($rootScope.form.bid) || 0;
-        if (bid_amount == $scope.minimal_bid.amount) {
-          var msg_id = Math.random();
-          $rootScope.alerts.push({
-            msg_id: msg_id,
-            type: 'warning',
-            msg: 'The proposal you have submitted coincides with a proposal of the other participant. His proposal will be considered first, since it has been submitted earlier.'
-          });
-        }
+        // $rootScope.alerts = [];
+        // var bid_amount = parseFloat(bid) || parseFloat($rootScope.form.bid) || 0;
+        // if (bid_amount == $scope.minimal_bid.amount) {
+        //   var msg_id = Math.random();
+        //   $rootScope.alerts.push({
+        //     msg_id: msg_id,
+        //     type: 'warning',
+        //     msg: 'The proposal you have submitted coincides with a proposal of the other participant. His proposal will be considered first, since it has been submitted earlier.'
+        //   });
+        // }
         $rootScope.form.active = true;
         $timeout(function() {
           $rootScope.form.active = false;
@@ -419,7 +430,10 @@ angular.module('auction').controller('AuctionController',[
         }
 
         $http.post(sse_url + '/postbid', {
-          'bid': parseFloat(bid) || parseFloat($rootScope.form.bid) || 0,
+          'contractDurationYears': contractDurationYears.toFixed(),
+          'contractDurationDays':  contractDurationDays.toFixed(),
+          'yearlyPayments':  yearlyPayments.toFixed(2),
+          'yearlyPaymentsPercentage':  yearlyPaymentsPercentage.toFixed(3),
           'bidder_id': $scope.bidder_id || bidder_id || "0"
         }).success(function(data) {
           if ($scope.post_bid_timeout){
@@ -445,15 +459,16 @@ angular.module('auction').controller('AuctionController',[
               }
             }
           } else {
-            var bid = data.data.bid;
-            if ((bid <= ($scope.max_bid_amount() * 0.1)) && (bid != -1)) {
-              var msg_id = Math.random();
-              $rootScope.alerts.push({
-                msg_id: msg_id,
-                type: 'warning',
-                msg: 'Your bid appears too low'
-              });
-            }
+            // XXX TODO Handle to low
+            // var bid = data.data.bid;
+            // if ((bid <= ($scope.max_bid_amount() * 0.1)) && (bid != -1)) {
+            //   var msg_id = Math.random();
+            //   $rootScope.alerts.push({
+            //     msg_id: msg_id,
+            //     type: 'warning',
+            //     msg: 'Your bid appears too low'
+            //   });
+            // }
             var msg_id = Math.random();
             if (bid == -1) {
               $rootScope.alerts = [];
@@ -469,14 +484,18 @@ angular.module('auction').controller('AuctionController',[
               $log.info({
                 message: "Handle cancel bid response on post bid"
               });
-              $rootScope.form.bid = "";
+              // XXX TODO Check
+              $rootScope.form.yearlyPayments = "";
+              $rootScope.form.yearlyPaymentsPercentage = "";
+              $rootScope.form.contractDurationDays = "";
+              $rootScope.form.contractDurationYears = "";
               $rootScope.form.full_price = '';
               $rootScope.form.bid_temp = '';
 
             } else {
               $log.info({
                 message: "Handle success response on post bid",
-                bid_data: data.data.bid
+                bid_data: data.data.bid // XXX TODO
               });
               $rootScope.alerts.push({
                 msg_id: msg_id,
@@ -528,10 +547,11 @@ angular.module('auction').controller('AuctionController',[
       if ((angular.isString($scope.bidder_id)) && (angular.isObject($scope.auction_doc))) {
         var current_stage_obj = $scope.auction_doc.stages[$scope.auction_doc.current_stage] || null;
         if ((angular.isObject(current_stage_obj)) && (current_stage_obj.amount || current_stage_obj.amount_features)) {
+          minimalStep_currency = math.fraction(current_stage_obj.amount) * math.fraction($scope.auction_doc.minimalStep.amount) / math.fraction(100)
           if ($scope.bidder_coeficient && ($scope.auction_doc.auction_type || "default" == "meat")) {
-            amount = math.fraction(current_stage_obj.amount_features) * $scope.bidder_coeficient - math.fraction($scope.auction_doc.minimalStep.amount);
+            amount = math.fraction(current_stage_obj.amount_features) / $scope.bidder_coeficient + minimalStep_currency;
           } else {
-            amount = math.fraction(current_stage_obj.amount) - math.fraction($scope.auction_doc.minimalStep.amount);
+            amount = math.fraction(current_stage_obj.amount) + minimalStep_currency;
           }
         }
       };
@@ -561,6 +581,7 @@ angular.module('auction').controller('AuctionController',[
         }
         $scope.auction_doc.stages.forEach(filter_func);
         $scope.auction_doc.initial_bids.forEach(filter_func);
+        // XXX TODO
         $scope.minimal_bid = bids.sort(function(a, b) {
           if ($scope.auction_doc.auction_type == 'meat') {
             var diff = math.fraction(a.amount_features) - math.fraction(b.amount_features);
@@ -767,6 +788,7 @@ angular.module('auction').controller('AuctionController',[
       });
     };
     /* 2-WAY INPUT */
+    // XXX TODO
     $scope.calculate_bid_temp = function() {
       $rootScope.form.bid_temp = Number(math.fraction(($rootScope.form.bid * 100).toFixed(), 100));
       $rootScope.form.full_price = $rootScope.form.bid_temp / $scope.bidder_coeficient;
