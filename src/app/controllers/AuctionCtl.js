@@ -390,10 +390,10 @@ angular.module('auction').controller('AuctionController',[
       yearlyPaymentsPercentage = yearlyPaymentsPercentage || $rootScope.form.yearlyPaymentsPercentage || 0;
       $log.info({
         'message': "Start post bid",
-        'contractDurationYears': contractDurationYears.toFixed(),
-        'contractDurationDays':  contractDurationDays.toFixed(),
-        'yearlyPayments':  yearlyPayments.toFixed(2),
-        'yearlyPaymentsPercentage':  yearlyPaymentsPercentage.toFixed(3)
+        'contractDuration': parseInt(contractDurationYears.toFixed()),
+        'contractDurationDays':  parseInt(contractDurationDays.toFixed()),
+        'yearlyPayments':  parseFloat(yearlyPayments.toFixed(2)),
+        'yearlyPaymentsPercentage':  parseFloat(yearlyPaymentsPercentage.toFixed(3))
       });
 
       // XXX TODO Validation for to low value
@@ -430,10 +430,10 @@ angular.module('auction').controller('AuctionController',[
         }
 
         $http.post(sse_url + '/postbid', {
-          'contractDurationYears': contractDurationYears.toFixed(),
-          'contractDurationDays':  contractDurationDays.toFixed(),
-          'yearlyPayments':  yearlyPayments.toFixed(2),
-          'yearlyPaymentsPercentage':  yearlyPaymentsPercentage.toFixed(3),
+          'contractDuration': parseInt(contractDurationYears.toFixed()),
+          'contractDurationDays':  parseInt(contractDurationDays.toFixed()),
+          'yearlyPayments':  parseFloat(yearlyPayments.toFixed(2)),
+          'yearlyPaymentsPercentage':  parseFloat(yearlyPaymentsPercentage.toFixed(3)),
           'bidder_id': $scope.bidder_id || bidder_id || "0"
         }).success(function(data) {
           if ($scope.post_bid_timeout){
@@ -470,7 +470,7 @@ angular.module('auction').controller('AuctionController',[
             //   });
             // }
             var msg_id = Math.random();
-            if (bid == -1) {
+            if (yearlyPayments == -1) {
               $rootScope.alerts = [];
               $scope.allow_bidding = true;
               $log.info({
