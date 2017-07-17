@@ -78,6 +78,10 @@ angular.module('auction').controller('AuctionController',[
       });
     };
     $scope.growlMessages = growlMessages;
+
+    // ESCO Constants
+    $scope.DAYS_IN_YEAR = 365;
+    $scope.NPV_CALCULATION_DURATION = 20;
     growlMessages.initDirective(0, 10);
     dataLayer.push({
       "tenderId": AuctionConfig.auction_doc_id
@@ -383,6 +387,53 @@ angular.module('auction').controller('AuctionController',[
     $scope.warning_post_bid = function(){
       growl.error('Unable to place a bid. Check that no more than 2 auctions are simultaneously opened in your browser.');
     };
+    $scope.calculate_yearly_payments = function(annual_costs_reduction, yearlyPaymentsPercentage){
+      return math.fraction(annual_costs_reduction) * math.fraction(yearlyPaymentsPercentage)
+    }
+    $scope.calculate_npv = function(nbu_rate,
+                                    annual_costs_reduction,
+                                    yearlyPayments,
+                                    contractDurationYears,
+                                    yearlyPaymentsPercentage=0.0,
+                                    contractDurationDays=0.0,
+                                    ){
+      if (yearlyPaymentsPercentage && yearlyPayments){
+        console.log("TODO")
+      }
+      if (yearlyPaymentsPercentage) {
+        yearlyPayments = $scope.calculate_yearly_payments(annual_costs_reduction, yearlyPaymentsPercentage)
+      }
+      if (contractDurationDays) {
+        var CF_incomplete = (n) => {
+          if (n === contractDurationYears + 1){
+            return math.fraction(math.fraction(contractDurationDays, $scope.DAYS_IN_YEAR) * yearlyPayments)
+          }
+          else{
+            return 0
+          }
+        }
+      }
+      else
+      {
+        var CF_incomplete = (n) =>{
+          return 0
+        }
+      }
+      var CF = (n) =>{
+        if (n <= contractDurationYears){
+          return yearlyPayments
+        }
+        else{
+          return CF_incomplete(n)
+        }
+      }
+      var npv = 0;
+      for (i=1;i<=$scope.NPV_CALCULATION_DURATION;i++)
+      {
+        npv = npv + math.fraction(annual_costs_reduction - CF(i)) / (math.fraction(1 + nbu_rate) ** i);
+      }
+      return npv;
+    }
     $scope.post_bid = function(contractDurationYears, contractDurationDays, yearlyPayments, yearlyPaymentsPercentage) {
       contractDurationYears = contractDurationYears || $rootScope.form.contractDurationYears || 0;
       contractDurationDays = contractDurationDays || $rootScope.form.contractDurationDays || 0;
