@@ -448,9 +448,7 @@ angular.module('auction').controller('AuctionController',[
       });
 
       // XXX TODO Validation for to low value
-      if ($rootScope.form.contractDurationYears.toFixed() == -1 || $rootScope.form.contractDurationDays.toFixed() == -1 ||
-          $rootScope.form.yearlyPayments.toFixed() == -1 ||
-          $rootScope.form.yearlyPaymentsPercentage.toFixed() == -1) {
+      if ($rootScope.form.contractDurationYears.toFixed() == -1 || $rootScope.form.yearlyPayments.toFixed() == -1) {
             var msg_id = Math.random();
             $rootScope.alerts.push({
               msg_id: msg_id,
@@ -460,18 +458,24 @@ angular.module('auction').controller('AuctionController',[
             $scope.auto_close_alert(msg_id);
             return 0;
       }
-      // XXX TODO Calculation bid amount
       if ($rootScope.form.BidsForm.$valid) {
-        // $rootScope.alerts = [];
-        // var bid_amount = parseFloat(bid) || parseFloat($rootScope.form.bid) || 0;
-        // if (bid_amount == $scope.minimal_bid.amount) {
-        //   var msg_id = Math.random();
-        //   $rootScope.alerts.push({
-        //     msg_id: msg_id,
-        //     type: 'warning',
-        //     msg: 'The proposal you have submitted coincides with a proposal of the other participant. His proposal will be considered first, since it has been submitted earlier.'
-        //   });
-        // }
+        $rootScope.alerts = [];
+
+        var bid_amount = $scope.calculate_npv($scope.auction_doc.NBUdiscountRate,
+                                       $scope.get_annual_costs_reduction($scope.bidder_id),
+                                       parseFloat(yearlyPayments.toFixed(2)),
+                                       parseInt(contractDurationYears.toFixed()),
+                                       parseFloat(yearlyPaymentsPercentage.toFixed(3)),
+                                       parseInt(contractDurationDays.toFixed())
+                                     )
+        if (bid_amount == $scope.minimal_bid.amount) {
+          var msg_id = Math.random();
+          $rootScope.alerts.push({
+            msg_id: msg_id,
+            type: 'warning',
+            msg: 'The proposal you have submitted coincides with a proposal of the other participant. His proposal will be considered first, since it has been submitted earlier.'
+          });
+        }
         $rootScope.form.active = true;
         $timeout(function() {
           $rootScope.form.active = false;
@@ -482,7 +486,7 @@ angular.module('auction').controller('AuctionController',[
 
         $http.post(sse_url + '/postbid', {
           'contractDuration': parseInt(contractDurationYears.toFixed()),
-          'contractDurationDays':  parseInt(contractDurationDays.toFixed()),
+          'contractDurationDays': parseInt(contractDurationDays.toFixed()),
           'yearlyPayments':  parseFloat(yearlyPayments.toFixed(2)),
           'yearlyPaymentsPercentage':  parseFloat(yearlyPaymentsPercentage.toFixed(3)),
           'bidder_id': $scope.bidder_id || bidder_id || "0"
@@ -510,16 +514,21 @@ angular.module('auction').controller('AuctionController',[
               }
             }
           } else {
-            // XXX TODO Handle to low
-            // var bid = data.data.bid;
-            // if ((bid <= ($scope.max_bid_amount() * 0.1)) && (bid != -1)) {
-            //   var msg_id = Math.random();
-            //   $rootScope.alerts.push({
-            //     msg_id: msg_id,
-            //     type: 'warning',
-            //     msg: 'Your bid appears too low'
-            //   });
-            // }
+            var bid = $scope.calculate_npv($scope.auction_doc.NBUdiscountRate,
+                                           $scope.get_annual_costs_reduction($scope.bidder_id),
+                                           data.data.yearlyPayments,
+                                           data.data.contractDurationYear,
+                                           data.data.yearlyPaymentsPercentage,
+                                          data.contractDurationDay
+                                         )
+            if ((bid <= ($scope.max_bid_amount() * 0.1))) {
+              var msg_id = Math.random();
+              $rootScope.alerts.push({
+                msg_id: msg_id,
+                type: 'warning',
+                msg: 'Your bid appears too low'
+              });
+            }
             var msg_id = Math.random();
             if (yearlyPayments == -1) {
               $rootScope.alerts = [];
@@ -546,7 +555,7 @@ angular.module('auction').controller('AuctionController',[
             } else {
               $log.info({
                 message: "Handle success response on post bid",
-                bid_data: data.data.bid // XXX TODO
+                bid_data: data.data
               });
               $rootScope.alerts.push({
                 msg_id: msg_id,
@@ -577,7 +586,14 @@ angular.module('auction').controller('AuctionController',[
                 message: "Ability to submit bids has been lost. Wait until page reloads, and retry."
               });
               relogin = function() {
-                window.location.replace(window.location.href + '/relogin?amount=' + $rootScope.form.bid);
+                var relogin_amount = $scope.calculate_npv($scope.auction_doc.NBUdiscountRate,
+                                               annual_costs_reduction,
+                                               data.data.yearlyPayments,
+                                               data.data.contractDurationYear,
+                                               data.data.yearlyPaymentsPercentage,
+                                              data.contractDurationDay
+                                             )
+                window.location.replace(window.location.href + '/relogin?amount=' + $rootScope.relogin_amount);
               }
               $timeout(relogin, 3000);
             } else {
@@ -632,7 +648,6 @@ angular.module('auction').controller('AuctionController',[
         }
         $scope.auction_doc.stages.forEach(filter_func);
         $scope.auction_doc.initial_bids.forEach(filter_func);
-        // XXX TODO
         $scope.minimal_bid = bids.sort(function(a, b) {
           if ($scope.auction_doc.auction_type == 'meat') {
             var diff = math.fraction(a.amount_features) - math.fraction(b.amount_features);
@@ -840,6 +855,13 @@ angular.module('auction').controller('AuctionController',[
     };
     /* 2-WAY INPUT */
     // XXX TODO
+    $scope.get_annual_costs_reduction = function(bidder_id){
+      for (var initial_bid in $scope.auction_doc.initial_bids){
+        if (bidder_id === $scope.auction_doc.initial_bids[initial_bid].bidder_id){
+          return $scope.auction_doc.initial_bids[initial_bid].annualCostsReduction;
+        }
+      }
+    }
     $scope.calculate_bid_temp = function() {
       $rootScope.form.bid_temp = Number(math.fraction(($rootScope.form.bid * 100).toFixed(), 100));
       $rootScope.form.full_price = $rootScope.form.bid_temp / $scope.bidder_coeficient;
@@ -858,5 +880,22 @@ angular.module('auction').controller('AuctionController',[
         }).replace(/(\d)(?=(\d{3})+\.)/g, '$1 ').replace(/\./g, ","));
       }
     };
+    $scope.calculate_yearly_payments_temp = function(){
+      $rootScope.form.yearlyPayments_temp = Number(math.fraction(($rootScope.form.yearlyPayments * 100).toFixed(), 100))
+      $rootScope.form.yearlyPaymentsPercentage = ($rootScope.form.yearlyPayments_temp / $scope.get_annual_costs_reduction($scope.bidder_id)) * 100;
+    }
+    $scope.calculate_yearly_payments_percantage_temp = function(){
+      $rootScope.form.yearlyPayments = math.fraction($rootScope.form.yearlyPaymentsPercentage, 100) * $scope.get_annual_costs_reduction($scope.bidder_id);
+      $rootScope.form.yearlyPaymentsPercentage_temp = $rootScope.form.yearlyPayments / get_annual_costs_reduction($scope.bidder_id);
+    }
+    $scope.set_yearly_payments_percantage_from_temp = function(){
+      $rootScope.form.yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage_temp;
+      if ($rootScope.form.yearlyPaymentsPercentage){
+        $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue(math.format($rootScope.form.yearlyPaymentsPercentage, {
+          notation: 'fixed',
+          precision: 2
+        }).replace(/(\d)(?=(\d{3})+\.)/g, '$1 ').replace(/\./g, ","));
+      }
+    }
     $scope.start();
 }]);
