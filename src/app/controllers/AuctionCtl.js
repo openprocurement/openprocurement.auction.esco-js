@@ -488,7 +488,7 @@ angular.module('auction').controller('AuctionController',[
           'contractDuration': parseInt(contractDurationYears.toFixed()),
           'contractDurationDays': parseInt(contractDurationDays.toFixed()),
           'yearlyPayments':  parseFloat(yearlyPayments.toFixed(2)),
-          'yearlyPaymentsPercentage':  parseFloat(yearlyPaymentsPercentage.toFixed(3)),
+          'yearlyPaymentsPercentage':  parseFloat((yearlyPaymentsPercentage / 100).toFixed(5)),
           'bidder_id': $scope.bidder_id || bidder_id || "0"
         }).success(function(data) {
           if ($scope.post_bid_timeout){
@@ -882,19 +882,25 @@ angular.module('auction').controller('AuctionController',[
     };
     $scope.calculate_yearly_payments_temp = function(){
       $rootScope.form.yearlyPayments_temp = Number(math.fraction(($rootScope.form.yearlyPayments * 100).toFixed(), 100))
-      $rootScope.form.yearlyPaymentsPercentage = ($rootScope.form.yearlyPayments_temp / $scope.get_annual_costs_reduction($scope.bidder_id)) * 100;
+      $rootScope.form.yearlyPaymentsPercentage = parseFloat((($rootScope.form.yearlyPayments_temp / $scope.get_annual_costs_reduction($scope.bidder_id)) * 100).toFixed(3));
+      $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue(math.format($rootScope.form.yearlyPaymentsPercentage, {
+        notation: 'fixed',
+        precision: 3
+      }).replace(/(\d)(?=(\d{4})+\.)/g, '$1 ').replace(/\./g, ","));
     }
-    $scope.calculate_yearly_payments_percantage_temp = function(){
+    $scope.calculate_yearly_payments_percentage_temp = function(){
       $rootScope.form.yearlyPayments = math.fraction($rootScope.form.yearlyPaymentsPercentage, 100) * $scope.get_annual_costs_reduction($scope.bidder_id);
-      $rootScope.form.yearlyPaymentsPercentage_temp = $rootScope.form.yearlyPayments / get_annual_costs_reduction($scope.bidder_id);
+      $rootScope.form.yearlyPaymentsPercentage_temp = parseFloat((($rootScope.form.yearlyPayments / $scope.get_annual_costs_reduction($scope.bidder_id)) * 100).toFixed(3));
+      console.log("yearlyPaymentsPercentage_temp change to" + $rootScope.form.yearlyPaymentsPercentage_temp);
     }
-    $scope.set_yearly_payments_percantage_from_temp = function(){
+    $scope.set_yearly_payments_percentage_from_temp = function(){
       $rootScope.form.yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage_temp;
       if ($rootScope.form.yearlyPaymentsPercentage){
+        console.log("SET " + $rootScope.form.yearlyPaymentsPercentage)
         $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue(math.format($rootScope.form.yearlyPaymentsPercentage, {
           notation: 'fixed',
-          precision: 2
-        }).replace(/(\d)(?=(\d{3})+\.)/g, '$1 ').replace(/\./g, ","));
+          precision: 3
+        }).replace(/(\d)(?=(\d{4})+\.)/g, '$1 ').replace(/\./g, ","));
       }
     }
     $scope.start();
