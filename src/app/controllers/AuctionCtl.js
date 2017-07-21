@@ -395,11 +395,8 @@ angular.module('auction').controller('AuctionController',[
                                     yearlyPayments,
                                     contractDurationYears,
                                     yearlyPaymentsPercentage=0.0,
-                                    contractDurationDays=0.0,
+                                    contractDurationDays=0.0
                                     ){
-      if (yearlyPaymentsPercentage && yearlyPayments){
-        console.log("TODO")
-      }
       if (yearlyPaymentsPercentage) {
         yearlyPayments = $scope.calculate_yearly_payments(annual_costs_reduction, yearlyPaymentsPercentage)
       }
@@ -495,6 +492,7 @@ angular.module('auction').controller('AuctionController',[
             $timeout.cancel($scope.post_bid_timeout);
             delete $scope.post_bid_timeout;
           }
+          console.log(data);
           $rootScope.form.active = false;
           var msg_id = '';
           if (data.status == 'failed') {
@@ -519,8 +517,10 @@ angular.module('auction').controller('AuctionController',[
                                            data.data.yearlyPayments,
                                            data.data.contractDurationYear,
                                            data.data.yearlyPaymentsPercentage,
-                                          data.contractDurationDay
+                                           data.contractDurationDay
                                          )
+            console.log("BID FROM FORM " + bid);
+            console.log("MAX BID AMOUNT " + $scope.max_bid_amount());
             if ((bid <= ($scope.max_bid_amount() * 0.1))) {
               var msg_id = Math.random();
               $rootScope.alerts.push({
@@ -891,12 +891,10 @@ angular.module('auction').controller('AuctionController',[
     $scope.calculate_yearly_payments_percentage_temp = function(){
       $rootScope.form.yearlyPayments = math.fraction($rootScope.form.yearlyPaymentsPercentage, 100) * $scope.get_annual_costs_reduction($scope.bidder_id);
       $rootScope.form.yearlyPaymentsPercentage_temp = parseFloat((($rootScope.form.yearlyPayments / $scope.get_annual_costs_reduction($scope.bidder_id)) * 100).toFixed(3));
-      console.log("yearlyPaymentsPercentage_temp change to" + $rootScope.form.yearlyPaymentsPercentage_temp);
     }
     $scope.set_yearly_payments_percentage_from_temp = function(){
       $rootScope.form.yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage_temp;
       if ($rootScope.form.yearlyPaymentsPercentage){
-        console.log("SET " + $rootScope.form.yearlyPaymentsPercentage)
         $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue(math.format($rootScope.form.yearlyPaymentsPercentage, {
           notation: 'fixed',
           precision: 3
