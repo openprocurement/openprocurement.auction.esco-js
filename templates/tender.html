@@ -385,7 +385,8 @@
                             <alert ng-repeat="alert in alerts" type="{{alert.type}}" class="bids-form-alert" close="closeAlert(alert.msg_id)"><span class="bids-form-alert-msg">{{ alert.msg | translate }}</span></alert>
                             <form id="BidsForm" name="form.BidsForm" role="form">
                                 <label for="bid"><span translate>Your proposal</span>:</label>
-                                <span ng-init="max_bid_amount()" class="max_bid_amount" id="max_bid_amount" ng-if="(auction_doc.auction_type||'default') == 'default'"><span id="max_bid_amount_price">{{ calculated_max_bid_amount|fraction }}</span> {{'or lower'|translate}}</span>
+                                <span ng-init="max_bid_amount()" class="max_bid_amount" id="max_bid_amount" ng-if="(auction_doc.auction_type||'default') == 'default'"><span id="max_bid_amount_price">{{ calculated_max_bid_amount|fraction }}</span> {{'or lower'|translate}}.</span>
+                                <span>Current NPV {{ current_npv | fraction }}</span>
                                 <div class="price-inform-block" ng-if="auction_doc.auction_type == 'meat'">
                                     <div class="col-md-5 col-sm-5 full-price-group">
                                         <span translate ng-if="auction_doc.auction_type == 'meat'">Full Price</span>
@@ -402,13 +403,13 @@
                                         <span ng-init="max_bid_amount()" class="max_bid_amount" ng-if="auction_doc.auction_type == 'meat'"><span>{{ calculated_max_bid_amount|fraction }}</span> {{'or lower'|translate}}</span>
                                         <!-- <input id="bid-amount-input" ng-disabled="!allow_bidding" min="0" ng-focus="$root.form.bid_temp = $root.form.bid" ng-blur="set_bid_from_temp()" ng-change="calculate_bid_temp()" class="form-control" id="bid" name="bid" ng-model="$root.form.bid" required format> -->
                                         <span style="display:block;">Contract Duration Years</span>
-                                        <input id="contract-duration-years-input" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.contractDurationYears" name="contractDurationYears" min="0" required format>
+                                        <input id="contract-duration-years-input" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.contractDurationYears" ng-change="calculate_current_npv()" name="contractDurationYears" min="0" required format>
                                         <span style="display:block;">Contract Duration Days</span>
-                                        <input id="contract-duration-days-input" ng-disabled="!allow_bidding" class="form-control"  ng-model="$root.form.contractDurationDays" name="contractDurationDays" min="0" format>
+                                        <input id="contract-duration-days-input" ng-disabled="!allow_bidding" class="form-control"  ng-model="$root.form.contractDurationDays" ng-change="calculate_current_npv()" name="contractDurationDays" min="0" format>
                                         <span style="display:block;">Yearly Payments Percentage</span>
-                                        <input id="yearly-payments-percentage" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.yearlyPaymentsPercentage" name="yearlyPaymentsPercentage" ng-focus="$root.form.yearlyPaymentsPercentage_temp = $root.form.yearlyPaymentsPercentage" ng-blur="set_yearly_payments_percentage_from_temp()" ng-change="calculate_yearly_payments_percentage_temp()" min="0" required format>
+                                        <input id="yearly-payments-percentage" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.yearlyPaymentsPercentage" name="yearlyPaymentsPercentage" ng-focus="$root.form.yearlyPaymentsPercentage_temp = $root.form.yearlyPaymentsPercentage" ng-blur="set_yearly_payments_percentage_from_temp()" ng-change="calculate_yearly_payments_percentage_temp(); calculate_current_npv();" min="0" required format>
                                         <span style="display:block;">Yearly Payments</span>
-                                        <input id="yearly-payments" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.yearlyPayments" name="yearlyPayments" ng-focus="$root.form.yearlyPayments_temp = $root.form.yearlyPayments" ng-blur="form.yearlyPayments = form.yearlyPayments_temp" ng-change="calculate_yearly_payments_temp()" min="0" required format>
+                                        <input id="yearly-payments" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.yearlyPayments" name="yearlyPayments" ng-focus="$root.form.yearlyPayments_temp = $root.form.yearlyPayments" ng-blur="form.yearlyPayments = form.yearlyPayments_temp" ng-change="calculate_yearly_payments_temp(); calculate_current_npv();" min="0" required format>
                                     </div>
                                     <div class="bidder-coeficient-wrap col-md-2 col-sm-2 col-xs-11" ng-if="auction_doc.auction_type == 'meat'">
                                         <span translate>Bidder Coeficient</span>
