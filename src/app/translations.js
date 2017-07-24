@@ -2,6 +2,10 @@ angular.module('auction').config(
     function($translateProvider) {
     $translateProvider.useLocalStorage();
     $translateProvider.translations('en', {
+    'Contract Duration Years': 'Contract duration years',
+    'Contract Duration Days': 'Contract duration days',
+    'Yearly Payments Percentage': 'Yearly payments percentage',
+    'Yearly Payments': 'Yearly payments',
     'at': 'at',
     'Announcement': 'Announcement',
     'Bid': 'Bid',
@@ -31,6 +35,7 @@ angular.module('auction').config(
     'Results Release': 'Results Release',
     'Waiting': 'Waiting',
     'or lower': 'or lower',
+    'or higher': 'or higher',
     'UAH': 'UAH',
     'shortTime': 'h:mm a',
     'Restart sync': 'Restart sync',
@@ -49,6 +54,7 @@ angular.module('auction').config(
     'minutes': 'min',
     'seconds': 'sec',
     'minimum': 'minimum',
+    'maximum': 'maximum',
     'Internet connection is lost. Attempt to restart after 1 sec': 'Internet connection is lost. Attempt to restart after 1 sec',
     'Synchronization failed': 'Synchronization failed',
     'Possible results': 'Possible results',
@@ -87,6 +93,10 @@ angular.module('auction').config(
   });
 
   $translateProvider.translations('uk', {
+    'Contract Duration Years': 'Тривалість контракту в роках',
+    'Contract Duration Days': 'Тривалість контракту в днях',
+    'Yearly Payments Percentage': 'Відсоток річних платежів',
+    'Yearly Payments': 'Річні платежі',
     'at': 'о',
     'Announcement': 'Оголошення результатів',
     'Bid': 'Заявка',
@@ -116,6 +126,7 @@ angular.module('auction').config(
     'Results Release': 'Результати',
     'Waiting': 'Очікування',
     'or lower': 'або менше',
+    'or higher': 'або більше',
     'UAH': 'грн',
     'shortTime': 'HH:mm',
     'Restart sync': 'Перезапуск синхронізації',
@@ -134,6 +145,7 @@ angular.module('auction').config(
     'minutes': 'хв',
     'seconds': 'сек',
     'minimum': 'мінімум',
+    'maximum': 'максимум',
     'Internet connection is lost. Attempt to restart after 1 sec': 'З\'єднання з інтернетом втрачено. спроба перезавантаження через 1 сек',
     'Synchronization failed': 'Помилка синхронізації',
     'Possible results': 'Можливі результати',
@@ -173,6 +185,10 @@ angular.module('auction').config(
 
 
   $translateProvider.translations('ru', {
+    'Contract Duration Years': 'Длительность контракта в годах',
+    'Contract Duration Days': 'Длительность контракта в днях',
+    'Yearly Payments Percentage': 'Процент ежегодных платежей',
+    'Yearly Payments': 'Ежегодные платежи',
     'at': 'о',
     'Announcement': 'Объявление результатов',
     'Bid': 'Ставка',
@@ -202,6 +218,7 @@ angular.module('auction').config(
     'Results Release': 'Результаты',
     'Waiting': 'Ожидание',
     'or lower': 'или меньше',
+    'or higher': 'или больше',
     'UAH': 'грн',
     'shortTime': 'HH:mm',
     'Restart sync': 'Перезапуск синхронизации',
@@ -220,6 +237,7 @@ angular.module('auction').config(
     'minutes': 'мин',
     'seconds': 'сек',
     'minimum': 'минимум',
+    'maximum': 'максимум',
     'Internet connection is lost. Attempt to restart after 1 sec': 'Cоединения с интернетом потеряно. попытка перезагрузки через 1 сек',
     'Synchronization failed': 'Ошибка синхронизации',
     'Possible results': 'Возможные результаты',
