@@ -392,23 +392,20 @@ angular.module('auction').controller('AuctionController',[
     }
     $scope.calculate_npv = function(nbu_rate,
                                     annual_costs_reduction,
-                                    yearlyPayments,
                                     contractDurationYears,
                                     yearlyPaymentsPercentage=0.0,
                                     contractDurationDays=0.0
                                     ){
-      if (yearlyPaymentsPercentage) {
-        yearlyPayments = $scope.calculate_yearly_payments(annual_costs_reduction, yearlyPaymentsPercentage)
-      }
+      yearlyPayments = $scope.calculate_yearly_payments(annual_costs_reduction, yearlyPaymentsPercentage)
       if (contractDurationDays) {
         var CF_incomplete = (n) => {
           if (n === contractDurationYears + 1){
-            return math.fraction(math.fraction(contractDurationDays, $scope.DAYS_IN_YEAR) * yearlyPayments)
+            return math.fraction(math.fraction(contractDurationDays, $scope.DAYS_IN_YEAR) * yearlyPayments);
           }
           else{
-            return 0
+            return 0;
           }
-        }
+        };
       }
       else
       {
@@ -434,32 +431,28 @@ angular.module('auction').controller('AuctionController',[
     $scope.calculate_current_npv = function(){
        contractDurationYears = $rootScope.form.contractDurationYears || 0;
        contractDurationDays = $rootScope.form.contractDurationDays || 0;
-       yearlyPayments = $rootScope.form.yearlyPayments || 0;
        yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage || 0;
         $scope.current_npv = $scope.calculate_npv(
              $scope.auction_doc.NBUdiscountRate,
              $scope.get_annual_costs_reduction($scope.bidder_id),
-             parseFloat(yearlyPayments.toFixed(2)),
              parseInt(contractDurationYears.toFixed()),
              parseFloat((yearlyPaymentsPercentage / 100).toFixed(5)),
              parseInt(contractDurationDays.toFixed())
         )
     }
-    $scope.post_bid = function(contractDurationYears, contractDurationDays, yearlyPayments, yearlyPaymentsPercentage) {
+    $scope.post_bid = function(contractDurationYears, contractDurationDays, yearlyPaymentsPercentage) {
       contractDurationYears = contractDurationYears || $rootScope.form.contractDurationYears || 0;
       contractDurationDays = contractDurationDays || $rootScope.form.contractDurationDays || 0;
-      yearlyPayments = yearlyPayments || $rootScope.form.yearlyPayments || 0;
       yearlyPaymentsPercentage = yearlyPaymentsPercentage || $rootScope.form.yearlyPaymentsPercentage || 0;
       $log.info({
         'message': "Start post bid",
         'contractDuration': parseInt(contractDurationYears.toFixed()),
         'contractDurationDays':  parseInt(contractDurationDays.toFixed()),
-        'yearlyPayments':  parseFloat(yearlyPayments.toFixed(2)),
         'yearlyPaymentsPercentage': parseFloat((yearlyPaymentsPercentage / 100).toFixed(5))
       });
 
       // XXX TODO Validation for to low value
-      if ($rootScope.form.contractDurationYears.toFixed() == -1 || $rootScope.form.yearlyPayments.toFixed() == -1) {
+      if ($rootScope.form.contractDurationYears.toFixed() == -1) {
             var msg_id = Math.random();
             $rootScope.alerts.push({
               msg_id: msg_id,
@@ -474,7 +467,6 @@ angular.module('auction').controller('AuctionController',[
 
         var bid_amount = $scope.calculate_npv($scope.auction_doc.NBUdiscountRate,
                                        $scope.get_annual_costs_reduction($scope.bidder_id),
-                                       parseFloat(yearlyPayments.toFixed(2)),
                                        parseInt(contractDurationYears.toFixed()),
                                        parseFloat(yearlyPaymentsPercentage.toFixed(3)),
                                        parseInt(contractDurationDays.toFixed())
@@ -498,7 +490,6 @@ angular.module('auction').controller('AuctionController',[
         $http.post(sse_url + '/postbid', {
           'contractDuration': parseInt(contractDurationYears.toFixed()),
           'contractDurationDays': parseInt(contractDurationDays.toFixed()),
-          'yearlyPayments':  parseFloat(yearlyPayments.toFixed(2)),
           'yearlyPaymentsPercentage':  parseFloat((yearlyPaymentsPercentage / 100).toFixed(5)),
           'bidder_id': $scope.bidder_id || bidder_id || "0"
         }).success(function(data) {
@@ -527,7 +518,6 @@ angular.module('auction').controller('AuctionController',[
           } else {
             var bid = $scope.calculate_npv($scope.auction_doc.NBUdiscountRate,
                                            $scope.get_annual_costs_reduction($scope.bidder_id),
-                                           data.data.yearlyPayments,
                                            data.data.contractDurationYear,
                                            data.data.yearlyPaymentsPercentage,
                                            data.contractDurationDay
@@ -541,40 +531,16 @@ angular.module('auction').controller('AuctionController',[
               });
             }
             var msg_id = Math.random();
-            if (yearlyPayments == -1) {
-              $rootScope.alerts = [];
-              $scope.allow_bidding = true;
-              $log.info({
-                message: "Handle cancel bid response on post bid"
-              });
-              $rootScope.alerts.push({
-                msg_id: msg_id,
-                type: 'success',
-                msg: 'Bid canceled'
-              });
-              $log.info({
-                message: "Handle cancel bid response on post bid"
-              });
-              // XXX TODO Check
-              $rootScope.form.yearlyPayments = "";
-              $rootScope.form.yearlyPaymentsPercentage = "";
-              $rootScope.form.contractDurationDays = "";
-              $rootScope.form.contractDurationYears = "";
-              $rootScope.form.full_price = '';
-              $rootScope.form.bid_temp = '';
-
-            } else {
-              $log.info({
-                message: "Handle success response on post bid",
-                bid_data: data.data
-              });
-              $rootScope.alerts.push({
-                msg_id: msg_id,
-                type: 'success',
-                msg: 'Bid placed'
-              });
-              $scope.allow_bidding = false;
-            }
+            $log.info({
+              message: "Handle success response on post bid",
+              bid_data: data.data
+            });
+            $rootScope.alerts.push({
+              msg_id: msg_id,
+              type: 'success',
+              msg: 'Bid placed'
+            });
+            $scope.allow_bidding = false;
             $scope.auto_close_alert(msg_id);
           }
         })
@@ -599,7 +565,6 @@ angular.module('auction').controller('AuctionController',[
               relogin = function() {
                 var relogin_amount = $scope.calculate_npv($scope.auction_doc.NBUdiscountRate,
                                                annual_costs_reduction,
-                                               data.data.yearlyPayments,
                                                data.data.contractDurationYear,
                                                data.data.yearlyPaymentsPercentage,
                                               data.contractDurationDay
@@ -891,18 +856,10 @@ angular.module('auction').controller('AuctionController',[
         }).replace(/(\d)(?=(\d{3})+\.)/g, '$1 ').replace(/\./g, ","));
       }
     };
-    $scope.calculate_yearly_payments_temp = function(){
-      $rootScope.form.yearlyPayments_temp = Number(math.fraction(($rootScope.form.yearlyPayments * 100).toFixed(), 100))
-      $rootScope.form.yearlyPaymentsPercentage = parseFloat((($rootScope.form.yearlyPayments_temp / $scope.get_annual_costs_reduction($scope.bidder_id)) * 100).toFixed(3));
-      $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue(math.format($rootScope.form.yearlyPaymentsPercentage, {
-        notation: 'fixed',
-        precision: 3
-      }).replace(/(\d)(?=(\d{4})+\.)/g, '$1 ').replace(/\./g, ","));
-    }
     $scope.calculate_yearly_payments_percentage_temp = function(){
       $rootScope.form.yearlyPayments = math.fraction($rootScope.form.yearlyPaymentsPercentage, 100) * $scope.get_annual_costs_reduction($scope.bidder_id);
       $rootScope.form.yearlyPaymentsPercentage_temp = parseFloat((($rootScope.form.yearlyPayments / $scope.get_annual_costs_reduction($scope.bidder_id)) * 100).toFixed(3));
-    }
+    };
     $scope.set_yearly_payments_percentage_from_temp = function(){
       $rootScope.form.yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage_temp;
       if ($rootScope.form.yearlyPaymentsPercentage){
@@ -911,6 +868,6 @@ angular.module('auction').controller('AuctionController',[
           precision: 3
         }).replace(/(\d)(?=(\d{4})+\.)/g, '$1 ').replace(/\./g, ","));
       }
-    }
+    };
     $scope.start();
 }]);

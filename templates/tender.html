@@ -408,8 +408,6 @@
                                         <input id="contract-duration-days-input" ng-disabled="!allow_bidding" class="form-control"  ng-model="$root.form.contractDurationDays" ng-change="calculate_current_npv()" name="contractDurationDays" min="0" format>
                                         <span style="display:block;">{{'Yearly Payments Percentage'|translate}}</span>
                                         <input id="yearly-payments-percentage" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.yearlyPaymentsPercentage" name="yearlyPaymentsPercentage" ng-focus="$root.form.yearlyPaymentsPercentage_temp = $root.form.yearlyPaymentsPercentage" ng-blur="set_yearly_payments_percentage_from_temp()" ng-change="calculate_yearly_payments_percentage_temp(); calculate_current_npv();" min="0" required format>
-                                        <span style="display:block;">{{'Yearly Payments'|translate}}</span>
-                                        <input id="yearly-payments" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.yearlyPayments" name="yearlyPayments" ng-focus="$root.form.yearlyPayments_temp = $root.form.yearlyPayments" ng-blur="form.yearlyPayments = form.yearlyPayments_temp" ng-change="calculate_yearly_payments_temp(); calculate_current_npv();" min="0" required format>
 
                                     </div>
                                     <div class="bidder-coeficient-wrap col-md-2 col-sm-2 col-xs-11" ng-if="auction_doc.auction_type == 'meat'">
