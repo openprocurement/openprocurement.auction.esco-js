@@ -1,6 +1,7 @@
 angular.module('auction').config(
     function($translateProvider) {
     $translateProvider.useLocalStorage();
+    $translateProvider.useSanitizeValueStrategy(null);
     $translateProvider.translations('en', {
     'Contract Duration Years': 'Contract duration years',
     'Contract Duration Days': 'Contract duration days',
