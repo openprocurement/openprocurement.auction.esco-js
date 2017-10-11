@@ -399,54 +399,17 @@ angular.module('auction').controller('AuctionController',[
     $rootScope.calculate_yearly_payments = function(annual_costs_reduction, yearlyPaymentsPercentage){
       return math.fraction(annual_costs_reduction) * math.fraction(yearlyPaymentsPercentage)
     }
-    $rootScope.calculate_npv = function(nbu_rate,
-                                    annual_costs_reduction,
-                                    contractDurationYears,
-                                    yearlyPaymentsPercentage=0.0,
-                                    contractDurationDays=0.0
-                                    ){
-      yearlyPayments = $rootScope.calculate_yearly_payments(annual_costs_reduction, yearlyPaymentsPercentage)
-      if (contractDurationDays) {
-        var CF_incomplete = (n) => {
-          if (n === contractDurationYears + 1){
-            return math.fraction(math.fraction(contractDurationDays, $rootScope.DAYS_IN_YEAR) * yearlyPayments);
-          }
-          else{
-            return 0;
-          }
-        };
-      }
-      else
-      {
-        var CF_incomplete = (n) =>{
-          return 0
-        }
-      }
-      var CF = (n) =>{
-        if (n <= contractDurationYears){
-          return yearlyPayments
-        }
-        else{
-          return CF_incomplete(n)
-        }
-      }
-      var npv = 0;
-      for (i=1;i<=$rootScope.NPV_CALCULATION_DURATION;i++)
-      {
-        npv = npv + math.fraction(annual_costs_reduction - CF(i)) / (math.fraction(1 + nbu_rate) ** i);
-      }
-      return npv;
-    }
     $rootScope.calculate_current_npv = function(){
        contractDurationYears = $rootScope.form.contractDurationYears || 0;
        contractDurationDays = $rootScope.form.contractDurationDays || 0;
        yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage || 0;
-        $rootScope.current_npv = $rootScope.calculate_npv(
-             $rootScope.auction_doc.NBUdiscountRate,
-             $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+        $rootScope.current_npv = AuctionUtils.npv(
              parseInt(contractDurationYears.toFixed()),
+             parseInt(contractDurationDays.toFixed()),
              parseFloat((yearlyPaymentsPercentage / 100).toFixed(5)),
-             parseInt(contractDurationDays.toFixed())
+             $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+             $rootScope.auction_doc.noticePublicationDate,
+             $rootScope.auction_doc.NBUdiscountRate,
         )
     }
     $rootScope.post_bid = function(contractDurationYears, contractDurationDays, yearlyPaymentsPercentage) {
@@ -474,11 +437,12 @@ angular.module('auction').controller('AuctionController',[
       if ($rootScope.form.BidsForm.$valid) {
         $rootScope.alerts = [];
 
-        var bid_amount = $rootScope.calculate_npv($rootScope.auction_doc.NBUdiscountRate,
-                                       $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
-                                       parseInt(contractDurationYears.toFixed()),
+        var bid_amount = AuctionUtils.npv(parseInt(contractDurationYears.toFixed()),
+                                       parseInt(contractDurationDays.toFixed()),
                                        parseFloat(yearlyPaymentsPercentage.toFixed(3)),
-                                       parseInt(contractDurationDays.toFixed())
+                                       $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+                                       $rootScope.auction_doc.noticePublicationDate,
+                                       $rootScope.auction_doc.NBUdiscountRate
                                      )
         if (bid_amount == $rootScope.minimal_bid.amount) {
           var msg_id = Math.random();
@@ -525,11 +489,12 @@ angular.module('auction').controller('AuctionController',[
               }
             }
           } else {
-            var bid = $rootScope.calculate_npv($rootScope.auction_doc.NBUdiscountRate,
-                                           $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
-                                           success.data.data.contractDurationYear,
+            var bid = AuctionUtils.npv(success.data.data.contractDurationYear,
+                                           success.data.contractDurationDay,
                                            success.data.data.yearlyPaymentsPercentage,
-                                           success.data.contractDurationDay
+                                           $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+                                           $rootScope.auction_doc.noticePublicationDate,
+                                           $rootScope.auction_doc.NBUdiscountRate,
                                          )
             if ((bid <= ($rootScope.max_bid_amount() * 0.1))) {
               var msg_id = Math.random();
@@ -571,11 +536,13 @@ angular.module('auction').controller('AuctionController',[
                 message: "Ability to submit bids has been lost. Wait until page reloads, and retry."
               });
               relogin = function() {
-                var relogin_amount = $rootScope.calculate_npv($rootScope.auction_doc.NBUdiscountRate,
-                                               annual_costs_reduction,
+                var relogin_amount = AuctionUtils.npv(
                                                data.data.contractDurationYear,
+                                               data.contractDurationDay,
                                                data.data.yearlyPaymentsPercentage,
-                                              data.contractDurationDay
+                                               $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+                                               $rootScope.auction_doc.noticePublicationDate,
+                                               $rootScope.auction_doc.NBUdiscountRate,
                                              )
                 window.location.replace(window.location.href + '/relogin?amount=' + $rootScope.relogin_amount);
               }
@@ -598,7 +565,7 @@ angular.module('auction').controller('AuctionController',[
       if ((angular.isString($rootScope.bidder_id)) && (angular.isObject($rootScope.auction_doc))) {
         var current_stage_obj = $rootScope.auction_doc.stages[$rootScope.auction_doc.current_stage] || null;
         if ((angular.isObject(current_stage_obj)) && (current_stage_obj.amount || current_stage_obj.amount_features)) {
-          minimalStep_currency = math.fraction(current_stage_obj.amount) * math.fraction($rootScope.auction_doc.minimalStep.amount) / math.fraction(100)
+          minimalStep_currency = math.fraction(current_stage_obj.amount) * math.fraction($rootScope.auction_doc.minimalStepPercentage)
           if ($rootScope.bidder_coeficient && ($rootScope.auction_doc.auction_type || "default" == "meat")) {
             amount = math.fraction(current_stage_obj.amount_features) / $rootScope.bidder_coeficient + minimalStep_currency;
           } else {
@@ -865,17 +832,17 @@ angular.module('auction').controller('AuctionController',[
       }
     };
     $rootScope.calculate_yearly_payments_percentage_temp = function(){
-      $rootScope.form.yearlyPayments = math.fraction($rootScope.form.yearlyPaymentsPercentage, 100) * $rootScope.get_annual_costs_reduction($rootScope.bidder_id);
-      $rootScope.form.yearlyPaymentsPercentage_temp = parseFloat((($rootScope.form.yearlyPayments / $rootScope.get_annual_costs_reduction($rootScope.bidder_id)) * 100).toFixed(3));
+//      $rootScope.form.yearlyPayments = math.fraction($rootScope.form.yearlyPaymentsPercentage, 100) * $rootScope.get_annual_costs_reduction($rootScope.bidder_id);
+//      $rootScope.form.yearlyPaymentsPercentage_temp = parseFloat((($rootScope.form.yearlyPayments / $rootScope.get_annual_costs_reduction($rootScope.bidder_id)) * 100).toFixed(3));
     };
     $rootScope.set_yearly_payments_percentage_from_temp = function(){
-      $rootScope.form.yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage_temp;
-      if ($rootScope.form.yearlyPaymentsPercentage){
-        $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue(math.format($rootScope.form.yearlyPaymentsPercentage, {
-          notation: 'fixed',
-          precision: 3
-        }).replace(/(\d)(?=(\d{4})+\.)/g, '$1 ').replace(/\./g, ","));
-      }
+//      $rootScope.form.yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage_temp;
+//      if ($rootScope.form.yearlyPaymentsPercentage){
+//        $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue(math.format($rootScope.form.yearlyPaymentsPercentage, {
+//          notation: 'fixed',
+//          precision: 3
+//        }).replace(/(\d)(?=(\d{4})+\.)/g, '$1 ').replace(/\./g, ","));
+//      }
     };
     $rootScope.start();
 }]);

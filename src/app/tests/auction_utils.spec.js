@@ -24,6 +24,8 @@ describe('Unit: Testing AuctionUtils "pad" ', function() {
   it('should be convert 1 to "01"', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
     expect(AuctionUtils.pad(1)).toEqual("01");
   }]));
+
+
 });
 
 

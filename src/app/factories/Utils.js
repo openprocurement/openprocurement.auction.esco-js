@@ -356,6 +356,70 @@ angular.module('auction').factory('AuctionUtils', [
         return false;
     }
 
+    function npv(contract_duration_years, contract_duration_days,
+        yearly_payments_percentage, annual_costs_reduction,
+        announcement_date, nbu_discount_rate,
+        days_per_year, npv_calculation_duration){
+        // Setup default parameters days per year and calculation duration
+        var days_per_year = (typeof days_per_year !== 'undefined') ?  b : 365;
+        var npv_calculation_duration = (typeof npv_calculation_duration !== 'undefined') ?  npv_calculation_duration : 20;
+
+        // Calculate discount rate days
+
+        var announcement_date = new Date(announcement_date)
+        var first_year_days = Math.floor(((new Date(announcement_date.getFullYear(), 12, 31) - announcement_date) / 1000) / 86400)  // calculate whole days
+        var days_for_discount_rate = (new Array(1).fill(first_year_days)).concat((new Array(npv_calculation_duration - 1)).fill(days_per_year))
+        days_for_discount_rate.push(days_per_year - first_year_days)
+
+        // Calculate days with payments
+
+        var contract_duration = contract_duration_years * days_per_year + contract_duration_days
+        var first_period_duration = math.min(contract_duration, days_for_discount_rate[0])
+        var full_periods_count = Math.floor((contract_duration - first_period_duration) / days_per_year)
+        var last_period_duration = (contract_duration - first_period_duration) % days_per_year
+
+
+        var empty_periods_count = npv_calculation_duration + 1 - full_periods_count - 2
+        var days_with_payments = [first_period_duration].concat((new Array(full_periods_count)).fill(days_per_year))
+        days_with_payments.push(last_period_duration)
+        days_with_payments = days_with_payments.concat(new Array(empty_periods_count).fill(0))
+
+        // Calculate payments
+
+        var payments = new Array()
+        for (var i = 0; i < annual_costs_reduction.length; i++){
+            payments.push(math.fraction(String(yearly_payments_percentage)) * math.fraction(String(annual_costs_reduction[i])) *
+            math.fraction(days_with_payments[i], days_for_discount_rate[i]))
+        }
+
+        // Calculate income
+
+        var income = [math.fraction(String(annual_costs_reduction[0])) - payments[0]]
+        for (var i = 1; i < annual_costs_reduction.length; i++){
+            income.push(math.fraction(String(annual_costs_reduction[i])) * math.fraction(days_for_discount_rate[i], 365) - payments[i])
+        }
+
+        // Calculate discount rate
+
+        var disc_rates = new Array()
+        for (var i = 0; i < days_for_discount_rate.length; i++){
+            disc_rates.push(math.fraction(String(nbu_discount_rate)) * math.fraction(days_for_discount_rate[i], days_per_year))
+        }
+
+        // Calculate discounted_income
+
+        var discounted_income_by_periods = new Array()
+        var coeficient = 1
+        for (var i = 0; i < disc_rates.length; i++){
+            coeficient = math.fraction(String(coeficient), (1 + disc_rates[i]))
+            discounted_income_by_periods.push(coeficient * income[i])
+        }
+
+        // return sum of discounted income
+
+        return math.sum(discounted_income_by_periods)
+    }
+
     return {
       'prepare_info_timer_data': prepare_info_timer_data,
       'prepare_progress_timer_data': prepare_progress_timer_data,
@@ -371,6 +435,7 @@ angular.module('auction').factory('AuctionUtils', [
       'polarToCartesian': polarToCartesian,
       'generateUUID': generateUUID,
       'detectIE': detectIE,
-      'UnsupportedBrowser': UnsupportedBrowser
+      'UnsupportedBrowser': UnsupportedBrowser,
+      'npv': npv
     };
 }]);
