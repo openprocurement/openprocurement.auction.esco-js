@@ -1,3 +1,6 @@
+var auction_doc_id = 'test';
+beforeEach(module('auction'));
+
 //stringifyQueryString
 describe('Unit: Testing AuctionUtils "stringifyQueryString" ', function() {
 
