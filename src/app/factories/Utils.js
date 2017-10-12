@@ -411,13 +411,14 @@ angular.module('auction').factory('AuctionUtils', [
         var discounted_income_by_periods = new Array()
         var coeficient = 1
         for (var i = 0; i < disc_rates.length; i++){
-            coeficient = math.fraction(String(coeficient), (1 + disc_rates[i]))
-            discounted_income_by_periods.push(coeficient * income[i])
-        }
+            if (coeficient==1) {
+            coeficient = math.fraction(String(coeficient), (1 + disc_rates[i]))} else {
+                coeficient = math.fraction(String(coeficient.n), coeficient.d*(1 + disc_rates[i]))
+            }
+            discounted_income_by_periods.push(coeficient * income[i])}
 
         // return sum of discounted income
-
-        return math.sum(discounted_income_by_periods)
+        return math.sum(discounted_income_by_periods).toFixed(11)
     }
 
     return {
