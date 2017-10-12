@@ -14,24 +14,17 @@
     @@for (var style in styles) {
         <link href="`+styles[style]+`" rel="stylesheet">
     }
-
-    @@if (name == 'tender') {
+    @@if (name == 'esco') {
         @@include('./title.html')
-    }
-    @@if (name == 'index'|| name == 'archive') {
-        <title>@@title</title>
     }
     <script>
       var db_name = '@@db_name';
     </script>
-
-
   </head>
 <body ng-cloak>
     @@if (name == 'esco') {
         @@include('./tender.html')
     }
-
     @@for (var scr in scripts) {
         <script src="`+scripts[scr]+`"></script>
     }
