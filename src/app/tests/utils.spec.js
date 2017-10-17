@@ -1,3 +1,6 @@
+var auction_doc_id = 'test';
+beforeEach(module('auction'));
+
 //stringifyQueryString
 describe('Unit: Testing AuctionUtils "stringifyQueryString" ', function() {
 
@@ -103,7 +106,7 @@ describe('Unit: Testing AuctionUtils "detectIE" ', function() {
   it('should be Defined', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
     expect(AuctionUtils.detectIE).toBeDefined();
   }]));
-  
+
   it('should detect MSIE or Trident or Edge ', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
     var ua = window.navigator.userAgent;
     var regEx = /MSIE|Trident|Edge/;
@@ -115,5 +118,336 @@ describe('Unit: Testing AuctionUtils "detectIE" ', function() {
 describe('Unit: Testing AuctionUtils "UnsupportedBrowser" ', function() {
   it('should be Defined', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
     expect(AuctionUtils.UnsupportedBrowser).toBeDefined();
+  }]));
+});
+
+//npv
+describe('Unit: Testing AuctionUtils "npv" ', function() {
+
+  const annualCostsReduction = [92.47, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250];
+  const nbuDiscountRate = 0.125;
+
+  const baseBid = {
+    'NBUdiscountRate': nbuDiscountRate,
+    'annualCostsReduction': annualCostsReduction,
+    'yearlyPaymentsPercentage': 0.70,
+    'contractDuration': {'years': 2, 'days': 10},
+    'announcementDate': new Date(2017, 8, 18)
+  };
+
+  /* ANNOUNCEMENT_DATE */
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        new Date(2017, 5, 2),
+        baseBid['NBUdiscountRate'])).toEqual('1493.11261864549');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        new Date(2017, 5, 3),
+        baseBid['NBUdiscountRate'])).toEqual('1493.29714530232');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        new Date(2017, 5, 4),
+        baseBid['NBUdiscountRate'])).toEqual('1493.48174786072');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        new Date(2017, 5, 5),
+        baseBid['NBUdiscountRate'])).toEqual('1493.66642643300');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        new Date(2017, 5, 6),
+        baseBid['NBUdiscountRate'])).toEqual('1493.85118113158');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        new Date(2017, 5, 7),
+        baseBid['NBUdiscountRate'])).toEqual('1494.03601206895');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        new Date(2017, 5, 8),
+        baseBid['NBUdiscountRate'])).toEqual('1494.22091935769');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        new Date(2017, 5, 9),
+        baseBid['NBUdiscountRate'])).toEqual('1494.40590311049');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        new Date(2017, 5, 10),
+        baseBid['NBUdiscountRate'])).toEqual('1494.59096344011');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        new Date(2017, 5, 11),
+        baseBid['NBUdiscountRate'])).toEqual('1494.77610045941');
+  }]));
+
+  /* CONTRACT_DURATION */
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        15,
+        0,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('650.19504129090');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        0,
+        1,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1810.49606787280');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        3,
+        11,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1390.67586224709');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        3,
+        12,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1390.35400799300');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        3,
+        13,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1390.03215373892');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        3,
+        14,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1389.71029948483');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        3,
+        15,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1389.38844523075');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        4,
+        15,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1280.67323051781');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        5,
+        15,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1184.03748410631');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        6,
+        15,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1098.13904285164');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        7,
+        15,
+        baseBid['yearlyPaymentsPercentage'],
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1021.78487284750');
+  }]));
+
+  /* PAYMENTS_PERCENTAGE */
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        0.7100,
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1509.25419393209');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        0.7200,
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1505.00489590214');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        0.7300,
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1500.75559787220');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        0.7400,
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1496.50629984225');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        0.7500,
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1492.25700181231');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        0.7600,
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1488.00770378236');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        0.7700,
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1483.75840575242');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        0.7800,
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1479.50910772247');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        0.7900,
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1475.25980969253');
+  }]));
+
+  it('should calculate it right', angular.mock.inject(['AuctionUtils', function(AuctionUtils) {
+    expect(AuctionUtils.npv(
+        baseBid['contractDuration']['years'],
+        baseBid['contractDuration']['days'],
+        0.8000,
+        baseBid['annualCostsReduction'],
+        baseBid['announcementDate'],
+        baseBid['NBUdiscountRate'])).toEqual('1471.01051166258');
   }]));
 });
