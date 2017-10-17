@@ -156,7 +156,7 @@
                                         <span class="amount-currency" ng-if="!angular.isUndefined(bid_info['amount'])">{{ auction_doc.minimalStep.currency|translate }}</span>
                                     </span>
                                 </span>
-                                <span class="label-minimum" ng-if="((bid_info.amount_features||bid_info.amount) == (minimal_bid.amount_features||minimal_bid.amount)) && bid_info.time == minimal_bid.time" translate>minimum</span>
+                                <span class="label-minimum" ng-if="((bid_info.amount_features||bid_info.amount) == (minimal_bid.amount_features||minimal_bid.amount)) && bid_info.time == minimal_bid.time" translate>maximum</span>
                             </span>
                         </div>
                     </div>
@@ -203,7 +203,6 @@
                             <span class="stage-info-item stage-amount"
                                   ng-if="(auction_doc.stages[stage + $index + 1]['type'] == 'bids')&&(!angular.isUndefined(auction_doc.stages[stage + $index + 1]['amount_features']||auction_doc.stages[stage + $index + 1]['amount']))"
                                   ng-class="{true: 'minimal-amount', false: 'default-amount'}[((auction_doc.stages[stage + $index + 1].amount_features||auction_doc.stages[stage + $index + 1].amount) == (minimal_bid.amount_features||minimal_bid.amount)) && auction_doc.stages[stage + $index + 1]['time'] == minimal_bid.time]">
-
                                 <span class="label-price" ng-if="auction_doc.stages[stage + $index + 1]['changed']">
 
                                     <span ng-if="auction_doc.stages[stage + $index + 1].bidder_id == bidder_id && auction_doc.auction_type == 'meat' && (auction_doc.current_stage < (auction_doc.stages.length - 1))">
@@ -276,7 +275,7 @@
                                     </span>
                                 </span>
 
-                                <span class="label-minimum" ng-if="((auction_doc.stages[stage + $index + 1].amount_features||auction_doc.stages[stage + $index + 1].amount) == (minimal_bid.amount_features||minimal_bid.amount)) && (auction_doc.stages[stage + $index + 1]['time'] == minimal_bid.time)" translate>minimum</span>
+                                <span class="label-minimum" ng-if="((auction_doc.stages[stage + $index + 1].amount_features||auction_doc.stages[stage + $index + 1].amount) == (minimal_bid.amount_features||minimal_bid.amount)) && (auction_doc.stages[stage + $index + 1]['time'] == minimal_bid.time)" translate>maximum</span>
                             </span>
                         </div>
                     </div>
@@ -313,7 +312,6 @@
                             <span class="stage-info-item stage-amount"
                                   ng-if="!angular.isUndefined(bid_info['amount_features']||bid_info['amount'])"
                                   ng-class="{true: 'minimal-amount', false: 'default-amount'}[((bid_info.amount_features||bid_info.amount) == (minimal_bid.amount_features||minimal_bid.amount)) && bid_info.time == minimal_bid.time]">
-
                                 <span ng-if="bid_info.bidder_id == bidder_id && auction_doc.auction_type == 'meat' && auction_doc.current_stage < (auction_doc.stages.length - 1)">
                                     <span class="label-price normalized-price">
                                         <span class="price-type" translate>Normilized Price</span>
@@ -346,7 +344,7 @@
                                         <span class="amount-currency" ng-if="!angular.isUndefined(bid_info['amount'])">{{ auction_doc.minimalStep.currency|translate }}</span>
                                     </span>
                                 </span>
-                                <span class="label-minimum" ng-if="((bid_info.amount_features||bid_info.amount) == (minimal_bid.amount_features||minimal_bid.amount)) && bid_info.time == minimal_bid.time" translate>minimum</span>
+                                <span class="label-minimum" ng-if="((bid_info.amount_features||bid_info.amount) == (minimal_bid.amount_features||minimal_bid.amount)) && bid_info.time == minimal_bid.time" translate>maximum</span>
                             </span>
                         </div>
                     </div>

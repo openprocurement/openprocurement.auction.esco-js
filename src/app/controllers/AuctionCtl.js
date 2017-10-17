@@ -609,7 +609,7 @@ angular.module('auction').controller('AuctionController',[
             return Date.parse(a.time || "") - Date.parse(b.time || "");
           }
           return diff;
-        })[0];
+        }).reverse()[0];
       }
     };
     $rootScope.start_sync = function() {
