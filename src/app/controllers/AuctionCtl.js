@@ -409,9 +409,9 @@ angular.module('auction').controller('AuctionController',[
              parseFloat((yearlyPaymentsPercentage / 100).toFixed(5)),
              $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
              $rootScope.auction_doc.noticePublicationDate,
-             $rootScope.auction_doc.NBUdiscountRate,
+             $rootScope.auction_doc.NBUdiscountRate
         )
-    }
+    };
     $rootScope.post_bid = function(contractDurationYears, contractDurationDays, yearlyPaymentsPercentage) {
       contractDurationYears = contractDurationYears || $rootScope.form.contractDurationYears || 0;
       contractDurationDays = contractDurationDays || $rootScope.form.contractDurationDays || 0;
@@ -494,8 +494,8 @@ angular.module('auction').controller('AuctionController',[
                                        success.data.data.yearlyPaymentsPercentage,
                                        $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
                                        $rootScope.auction_doc.noticePublicationDate,
-                                       $rootScope.auction_doc.NBUdiscountRate,
-                                      )
+                                       $rootScope.auction_doc.NBUdiscountRate
+                                      );
             if ((bid <= ($rootScope.max_bid_amount() * 0.1))) {
               var msg_id = Math.random();
               $rootScope.alerts.push({
@@ -542,8 +542,8 @@ angular.module('auction').controller('AuctionController',[
                                                error.data.data.yearlyPaymentsPercentage,
                                                $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
                                                $rootScope.auction_doc.noticePublicationDate,
-                                               $rootScope.auction_doc.NBUdiscountRate,
-                                             )
+                                               $rootScope.auction_doc.NBUdiscountRate
+                                             );
                 window.location.replace(window.location.href + '/relogin?amount=' + $rootScope.relogin_amount);
               }
               $timeout(relogin, 3000);

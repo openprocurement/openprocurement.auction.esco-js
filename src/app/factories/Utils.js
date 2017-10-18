@@ -367,7 +367,10 @@ angular.module('auction').factory('AuctionUtils', [
         // Calculate discount rate days
 
         var announcement_date = new Date(announcement_date)
-        var first_year_days = Math.floor(((new Date(announcement_date.getFullYear(), 12, 31) - announcement_date) / 1000) / 86400)  // calculate whole days
+        var first_year_days = Math.floor(
+            ((new Date(announcement_date.getFullYear(), 11, 31) -
+              new Date(announcement_date.getFullYear(), announcement_date.getMonth(), announcement_date.getDate())) /
+              1000) / 86400)  // calculate whole days
         var days_for_discount_rate = (new Array(1).fill(first_year_days)).concat((new Array(npv_calculation_duration - 1)).fill(days_per_year))
         days_for_discount_rate.push(days_per_year - first_year_days)
 
