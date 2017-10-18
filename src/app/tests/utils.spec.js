@@ -132,7 +132,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
     'annualCostsReduction': annualCostsReduction,
     'yearlyPaymentsPercentage': 0.70,
     'contractDuration': {'years': 2, 'days': 10},
-    'announcementDate': new Date(2017, 8, 18)
+    'announcementDate': new Date(2017, 7, 18)
   };
 
   /* ANNOUNCEMENT_DATE */
@@ -143,7 +143,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
         baseBid['contractDuration']['days'],
         baseBid['yearlyPaymentsPercentage'],
         baseBid['annualCostsReduction'],
-        new Date(2017, 5, 2),
+        new Date(2017, 4, 2),
         baseBid['NBUdiscountRate'])).toEqual('1493.11261864549');
   }]));
 
@@ -153,7 +153,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
         baseBid['contractDuration']['days'],
         baseBid['yearlyPaymentsPercentage'],
         baseBid['annualCostsReduction'],
-        new Date(2017, 5, 3),
+        new Date(2017, 4, 3),
         baseBid['NBUdiscountRate'])).toEqual('1493.29714530232');
   }]));
 
@@ -163,7 +163,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
         baseBid['contractDuration']['days'],
         baseBid['yearlyPaymentsPercentage'],
         baseBid['annualCostsReduction'],
-        new Date(2017, 5, 4),
+        new Date(2017, 4, 4),
         baseBid['NBUdiscountRate'])).toEqual('1493.48174786072');
   }]));
 
@@ -173,7 +173,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
         baseBid['contractDuration']['days'],
         baseBid['yearlyPaymentsPercentage'],
         baseBid['annualCostsReduction'],
-        new Date(2017, 5, 5),
+        new Date(2017, 4, 5),
         baseBid['NBUdiscountRate'])).toEqual('1493.66642643300');
   }]));
 
@@ -183,7 +183,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
         baseBid['contractDuration']['days'],
         baseBid['yearlyPaymentsPercentage'],
         baseBid['annualCostsReduction'],
-        new Date(2017, 5, 6),
+        new Date(2017, 4, 6),
         baseBid['NBUdiscountRate'])).toEqual('1493.85118113158');
   }]));
 
@@ -193,7 +193,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
         baseBid['contractDuration']['days'],
         baseBid['yearlyPaymentsPercentage'],
         baseBid['annualCostsReduction'],
-        new Date(2017, 5, 7),
+        new Date(2017, 4, 7),
         baseBid['NBUdiscountRate'])).toEqual('1494.03601206895');
   }]));
 
@@ -203,7 +203,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
         baseBid['contractDuration']['days'],
         baseBid['yearlyPaymentsPercentage'],
         baseBid['annualCostsReduction'],
-        new Date(2017, 5, 8),
+        new Date(2017, 4, 8),
         baseBid['NBUdiscountRate'])).toEqual('1494.22091935769');
   }]));
 
@@ -213,7 +213,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
         baseBid['contractDuration']['days'],
         baseBid['yearlyPaymentsPercentage'],
         baseBid['annualCostsReduction'],
-        new Date(2017, 5, 9),
+        new Date(2017, 4, 9),
         baseBid['NBUdiscountRate'])).toEqual('1494.40590311049');
   }]));
 
@@ -223,7 +223,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
         baseBid['contractDuration']['days'],
         baseBid['yearlyPaymentsPercentage'],
         baseBid['annualCostsReduction'],
-        new Date(2017, 5, 10),
+        new Date(2017, 4, 10),
         baseBid['NBUdiscountRate'])).toEqual('1494.59096344011');
   }]));
 
@@ -233,7 +233,7 @@ describe('Unit: Testing AuctionUtils "npv" ', function() {
         baseBid['contractDuration']['days'],
         baseBid['yearlyPaymentsPercentage'],
         baseBid['annualCostsReduction'],
-        new Date(2017, 5, 11),
+        new Date(2017, 4, 11),
         baseBid['NBUdiscountRate'])).toEqual('1494.77610045941');
   }]));
 
