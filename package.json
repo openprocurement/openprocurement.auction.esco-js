@@ -52,6 +52,8 @@
     "jasmine": "^2.6.0"
   },
   "scripts": {
+    "prebuild": "npm install && ./node_modules/.bin/bower install",
+    "build": "./node_modules/.bin/gulp clean && ./node_modules/.bin/gulp build",
     "test": "./node_modules/.bin/karma start"
   }
 }
