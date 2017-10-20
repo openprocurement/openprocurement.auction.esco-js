@@ -4,4 +4,3 @@ build
 node_modules
 src/lib
 *egg-info/*
-config.json

@@ -798,8 +798,6 @@ angular.module('auction').controller('AuctionController',[
     $rootScope.open_menu = function() {
       var modalInstance = $aside.open({
         templateUrl: 'templates/menu.html',
-        controller: 'OffCanvasController',
-        scope: $rootScope,
         size: 'lg',
         backdrop: true
       });
