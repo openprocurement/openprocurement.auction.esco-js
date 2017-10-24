@@ -442,8 +442,9 @@
                                     <div class="input-group-btn col-md-4 col-sm-4 pull-right">
                                         <button id="place-bid-button" type="submit" ng-if="allow_bidding" ng-click="post_bid()" class="btn btn-success" ng-class="{'active': form.active}" translate>Place a bid</button>
                                         <button id="edit-bid-button" type="submit" ng-if="!allow_bidding" ng-click="edit_bid()" class="btn btn-link" translate>Edit</button>
+                                        <!--TODO fix bid cancellation-->
                                         <button id="cancel-bid-button" type="submit" ng-if="!allow_bidding" ng-click="post_bid(-1)" class="btn btn-danger" ng-class="{'active': form.active}" translate>Cancel Bid</button>
-                                        <button id="clear-bid-button" type="submit" ng-if="allow_bidding" ng-click="($root.form.full_price = '');($root.form.bid_temp = null);($root.form.bid = null)" class="btn btn-primary" translate>Clear</button>
+                                        <button id="clear-bid-button" type="submit" ng-if="allow_bidding" ng-click="($root.form.yearlyPaymentsPercentage = '');($root.form.contractDurationDays = '');($root.form.contractDurationYears = '');($root.form.bid_temp = null);($root.form.bid = null)" class="btn btn-primary" translate>Clear</button>
                                     </div>
                                 </div>
                             </form>
