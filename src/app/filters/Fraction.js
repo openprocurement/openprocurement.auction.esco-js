@@ -11,7 +11,7 @@ angular.module('auction').filter('fraction', [function () {
         return format_function(val);
       }
       if (coeficient) {
-        return format_function(math.eval(math.format(math.fraction(val) * math.fraction(coeficient))).toFixed(2));
+        return format_function(math.eval(math.format(math.fraction(val) / math.fraction(coeficient))).toFixed(2));
       }
       return format_function(math.eval(math.format(math.fraction(val))).toFixed(2));
     }

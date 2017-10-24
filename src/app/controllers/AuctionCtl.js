@@ -565,11 +565,12 @@ angular.module('auction').controller('AuctionController',[
       if ((angular.isString($rootScope.bidder_id)) && (angular.isObject($rootScope.auction_doc))) {
         var current_stage_obj = $rootScope.auction_doc.stages[$rootScope.auction_doc.current_stage] || null;
         if ((angular.isObject(current_stage_obj)) && (current_stage_obj.amount || current_stage_obj.amount_features)) {
-          minimalStep_currency = math.fraction(current_stage_obj.amount) * math.fraction($rootScope.auction_doc.minimalStepPercentage)
           if ($rootScope.bidder_coeficient && ($rootScope.auction_doc.auction_type || "default" == "meat")) {
-            amount = math.fraction(current_stage_obj.amount_features) / $rootScope.bidder_coeficient + minimalStep_currency;
+            amount = math.fraction(current_stage_obj.amount_features) * $rootScope.bidder_coeficient +
+            math.fraction(current_stage_obj.amount_features) * math.fraction($rootScope.auction_doc.minimalStepPercentage);
           } else {
-            amount = math.fraction(current_stage_obj.amount) + minimalStep_currency;
+            amount = math.fraction(current_stage_obj.amount)
+            + math.fraction(current_stage_obj.amount) * math.fraction($rootScope.auction_doc.minimalStepPercentage);
           }
         }
       };
@@ -811,36 +812,16 @@ angular.module('auction').controller('AuctionController',[
         }
       }
     }
-    $rootScope.calculate_bid_temp = function() {
-      $rootScope.form.bid_temp = Number(math.fraction(($rootScope.form.bid * 100).toFixed(), 100));
-      $rootScope.form.full_price = $rootScope.form.bid_temp / $rootScope.bidder_coeficient;
-      $log.debug("Set bid_temp:", $rootScope.form);
-    };
     $rootScope.calculate_full_price_temp = function() {
-      $rootScope.form.bid = (math.fix((math.fraction($rootScope.form.full_price) * $rootScope.bidder_coeficient) * 100)) / 100;
-      $rootScope.form.full_price_temp = $rootScope.form.bid / $rootScope.bidder_coeficient;
-    };
-    $rootScope.set_bid_from_temp = function() {
-      $rootScope.form.bid = $rootScope.form.bid_temp;
-      if ($rootScope.form.bid){
-        $rootScope.form.BidsForm.bid.$setViewValue(math.format($rootScope.form.bid, {
-          notation: 'fixed',
-          precision: 2
-        }).replace(/(\d)(?=(\d{3})+\.)/g, '$1 ').replace(/\./g, ","));
-      }
-    };
-    $rootScope.calculate_yearly_payments_percentage_temp = function(){
-//      $rootScope.form.yearlyPayments = math.fraction($rootScope.form.yearlyPaymentsPercentage, 100) * $rootScope.get_annual_costs_reduction($rootScope.bidder_id);
-//      $rootScope.form.yearlyPaymentsPercentage_temp = parseFloat((($rootScope.form.yearlyPayments / $rootScope.get_annual_costs_reduction($rootScope.bidder_id)) * 100).toFixed(3));
-    };
-    $rootScope.set_yearly_payments_percentage_from_temp = function(){
-//      $rootScope.form.yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage_temp;
-//      if ($rootScope.form.yearlyPaymentsPercentage){
-//        $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue(math.format($rootScope.form.yearlyPaymentsPercentage, {
-//          notation: 'fixed',
-//          precision: 3
-//        }).replace(/(\d)(?=(\d{4})+\.)/g, '$1 ').replace(/\./g, ","));
-//      }
+      var bid = AuctionUtils.npv($rootScope.form.contractDurationYears,
+                                 $rootScope.form.contractDurationDays,
+                                 parseFloat(($rootScope.form.yearlyPaymentsPercentage / 100).toFixed(5)),
+                                 $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+                                 $rootScope.auction_doc.noticePublicationDate,
+                                 $rootScope.auction_doc.NBUdiscountRate
+                                 );
+      $rootScope.form.full_price_temp = bid * $rootScope.bidder_coeficient;
+      $rootScope.form.full_price = $rootScope.form.full_price_temp;
     };
     $rootScope.start();
 }]);
