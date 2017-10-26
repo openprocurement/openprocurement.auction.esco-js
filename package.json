@@ -71,7 +71,7 @@
     "requirejs": "~2.1.15"
   },
   "scripts": {
-    "develop": "npm install yarn && yarn",
+    "develop": "npm install yarn --ignore-scripts && yarn --ignore-scripts",
     "build": "gulp",
     "test": "karma start"
   },
