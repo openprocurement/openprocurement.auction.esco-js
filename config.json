@@ -34,7 +34,7 @@
     "png": "src/assets/img/img/*.png",
     "icons": "src/assets/img/*.png"
   },
-  "buildout_outDir": "../../parts/",
+  "buildout_outDir": "../../parts/www",
   "outDir": "dist",
   "buildDir": "build",
   "app_name": "esco.js",
