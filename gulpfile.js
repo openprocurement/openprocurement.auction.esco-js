@@ -1,17 +1,19 @@
-const gulp          = require('gulp'),
-      notify        = require('gulp-notify'),
-      del           = require('del'),
-      concat        = require('gulp-concat'),
-      minify        = require('gulp-minify'),
-      cleanCSS      = require('gulp-clean-css'),
-      uglify        = require('gulp-uglify'),
-      fs            = require('fs'),
-      sourcemaps    = require('gulp-sourcemaps'),
-      render        = require('gulp-nunjucks-render'),
-      data          = require('gulp-data'),
-      rev           = require('gulp-rev'),
-      revReplace    = require('gulp-rev-replace'),
-      revdel = require('gulp-rev-delete-original');
+const gulp           = require('gulp'),
+      notify         = require('gulp-notify'),
+      del            = require('del'),
+      concat         = require('gulp-concat'),
+      minify         = require('gulp-minify'),
+      cleanCSS       = require('gulp-clean-css'),
+      uglify         = require('gulp-uglify'),
+      fs             = require('fs'),
+      less           = require('gulp-less'),
+      lessAutoprefix = require('less-plugin-autoprefix'),
+      sourcemaps     = require('gulp-sourcemaps'),
+      render         = require('gulp-nunjucks-render'),
+      data           = require('gulp-data'),
+      rev            = require('gulp-rev'),
+      revReplace     = require('gulp-rev-replace'),
+      revdel         = require('gulp-rev-delete-original');
 
 function  interceptErrors(error) {
   let args = Array.prototype.slice.call(arguments);
@@ -50,7 +52,17 @@ gulp.task('js:tenders',  () => {
   .pipe(gulp.dest(config.buildDir + '/static/js'));
 });
 
-gulp.task('css:all', () => {
+gulp.task('css:less', () => {
+  let autoprefix = new lessAutoprefix({ browsers: ['last 2 versions'] });
+  return gulp.src('src/assets/css/starter-template.less')
+    .pipe(less({
+      plugins: [autoprefix]
+    }))
+    .on('error', interceptErrors)
+    .pipe(gulp.dest('src/assets/css/'));
+});
+
+gulp.task('css:all', ['css:less'], () => {
   return gulp.src(config.styles)
     .pipe(concat('all.css'))
     .pipe(gulp.dest(config.buildDir + '/static/css'));
