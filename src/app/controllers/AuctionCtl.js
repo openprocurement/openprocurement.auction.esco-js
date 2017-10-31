@@ -415,12 +415,6 @@ angular.module('auction').controller('AuctionController',[
             $rootScope.current_npv = 0;
         }
     };
-//    $rootScope.validate_npv_input_data = function(days, years, percentage){
-//        if (days > 365 || days < 1 || isNaN(days)) return false;
-//        if (years > 20 || years < 1 || isNaN(years)) return false;
-//        if (percentage > 100 || percentage < 1 || isNaN(percentage)) return false;
-//        return true;
-//    }
     $rootScope.post_bid = function(contractDurationYears, contractDurationDays, yearlyPaymentsPercentage) {
       contractDurationYears = contractDurationYears || $rootScope.form.contractDurationYears || 0;
       contractDurationDays = contractDurationDays || $rootScope.form.contractDurationDays || 0;
