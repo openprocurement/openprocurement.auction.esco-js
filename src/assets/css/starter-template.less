@@ -8,7 +8,11 @@
 @screen-md-max: 991px;
 @screen-md-min: 992px;
 @color-text: #fff;
+// @form-color-text: #ab4343;
+@form-color-text: #fff;
+@form-help-color-text: #fff;
 @primary-color: #d26565;
+// @primary-color: #fcf8e3;
 
 // ***
 // * Styles
@@ -20,7 +24,7 @@
 body {
     padding-top: 73px;
     // padding-bottom: 196px;
-    padding-bottom: 252px;
+    padding-bottom: 270px;
 }
 // .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4,
 // .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8,
@@ -602,7 +606,7 @@ body {
 .bids-form {
     background-color: @primary-color;
     box-shadow: 0 4px 20px -4px #000;
-    color: #fff;
+    color: @form-color-text;
     max-height: 60%;
     overflow-y: auto;
     padding-bottom: 8px;
@@ -688,6 +692,7 @@ body {
 }
 .bid-info-block {
     background-color: #bc4d4d;
+    color: @form-help-color-text;
     overflow: hidden;
     padding: 0 8px;
     text-overflow: ellipsis;

@@ -408,10 +408,13 @@
                                 <div class="col-sm-6 col-xs-12"
                                      ng-class="{'col-md-12': (auction_doc.auction_type||'default') == 'default',
                                                 'col-md-6': (auction_doc.auction_type||'default') == 'meat'}">
-                                    <div class="bid-info-block" ng-if="auction_doc.auction_type == 'meat'">
+                                    <div class="bid-info-block">
                                         <div class="bid-info-title">
-                                            <div class="bid-info-visual" translate>
+                                            <div class="bid-info-visual" ng-if="auction_doc.auction_type == 'meat'" translate>
                                                 Full Price
+                                            </div>
+                                            <div class="bid-info-visual" ng-if="auction_doc.auction_type == 'default'" translate>
+                                                Your proposal must be
                                             </div>
                                         </div>
                                         <div ng-init="max_bid_amount()" class="bid-info-value">
@@ -430,7 +433,7 @@
                                     <div class="bid-info-block">
                                         <div class="bid-info-title">
                                             <div class="bid-info-visual" translate>
-                                                Current NPV:
+                                                Current NPV
                                             </div>
                                         </div>
                                         <div id="current-npv" class="bid-info-value">
@@ -481,7 +484,7 @@
                                      ng-class="{'col-md-9': (auction_doc.auction_type||'default') == 'default',
                                                 'col-md-8': (auction_doc.auction_type||'default') == 'meat'}">
                                     <div class="row">
-                                        <h4 class="col-md-12 col-xs-12 col-sm-8 text-center xs-max-hidden" translate>Contract Duration</h4>
+                                        <h4 class="col-md-12 col-xs-12 col-sm-8 text-center xs-max-hidden" translate>Contract duration</h4>
                                         <div class="input-cd-years form-group col-md-6 col-sm-4 col-xs-4">
                                             <label class="xs-min-hidden" for="contractDurationYears" translate>Contract Duration Years</label>
                                             <div class="input-group">
@@ -500,7 +503,7 @@
                                             <h4 class="text-center xs-max-hidden" translate>Yearly Payments</h4>
                                             <label class="xs-min-hidden" for="yearlyPaymentsPercentage" translate>Yearly Payments Percentage</label>
                                             <div class="input-group">
-                                                <div class="input-group-addon xs-max-hidden" translate>%</div>
+                                                <div class="input-group-addon xs-max-hidden">%</div>
                                                 <input id="yearly-payments-percentage" type="number" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.yearlyPaymentsPercentage" name="yearlyPaymentsPercentage" ng-focus="$root.form.yearlyPaymentsPercentage_temp = $root.form.yearlyPaymentsPercentage" ng-blur="set_yearly_payments_percentage_from_temp()" ng-change="calculate_yearly_payments_percentage_temp(); calculate_current_npv(); calculate_full_price_temp()" min="0" max="100" required format>
                                             </div>
                                         </div>

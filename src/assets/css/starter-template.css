@@ -8,7 +8,7 @@
 }
 body {
   padding-top: 73px;
-  padding-bottom: 252px;
+  padding-bottom: 270px;
 }
 /*----- Header -----*/
 /* Header auction*/
@@ -716,6 +716,7 @@ label.xs-min-hidden {
 }
 .bid-info-block {
   background-color: #bc4d4d;
+  color: #fff;
   overflow: hidden;
   padding: 0 8px;
   text-overflow: ellipsis;
