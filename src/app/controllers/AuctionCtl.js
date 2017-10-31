@@ -400,9 +400,7 @@ angular.module('auction').controller('AuctionController',[
        contractDurationYears = $rootScope.form.contractDurationYears || 0;
        contractDurationDays = $rootScope.form.contractDurationDays || 0;
        yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage || 0;
-       if ($rootScope.validate_npv_input_data(parseInt(contractDurationDays),
-                                              parseInt(contractDurationYears),
-                                              parseFloat(yearlyPaymentsPercentage)))
+       if ($rootScope.form.BidsForm.$valid)
         {
         $rootScope.current_npv = AuctionUtils.npv(
              parseInt(contractDurationYears.toFixed()),
@@ -417,12 +415,12 @@ angular.module('auction').controller('AuctionController',[
             $rootScope.current_npv = 0;
         }
     };
-    $rootScope.validate_npv_input_data = function(days, years, percentage){
-        if (days > 365 || days < 1 || isNaN(days)) return false;
-        if (years > 20 || years < 1 || isNaN(years)) return false;
-        if (percentage > 100 || percentage < 1 || isNaN(percentage)) return false;
-        return true;
-    }
+//    $rootScope.validate_npv_input_data = function(days, years, percentage){
+//        if (days > 365 || days < 1 || isNaN(days)) return false;
+//        if (years > 20 || years < 1 || isNaN(years)) return false;
+//        if (percentage > 100 || percentage < 1 || isNaN(percentage)) return false;
+//        return true;
+//    }
     $rootScope.post_bid = function(contractDurationYears, contractDurationDays, yearlyPaymentsPercentage) {
       contractDurationYears = contractDurationYears || $rootScope.form.contractDurationYears || 0;
       contractDurationDays = contractDurationDays || $rootScope.form.contractDurationDays || 0;
@@ -447,22 +445,12 @@ angular.module('auction').controller('AuctionController',[
       }
       if ($rootScope.form.BidsForm.$valid) {
         $rootScope.alerts = [];
-        var bid_amount;
-        if ($rootScope.validate_npv_input_data(parseInt(contractDurationDays),
-                                              parseInt(contractDurationYears),
-                                              parseFloat(yearlyPaymentsPercentage)))
-        {
-            bid_amount = AuctionUtils.npv(parseInt(contractDurationYears.toFixed()),
-                                               parseInt(contractDurationDays.toFixed()),
-                                               parseFloat(yearlyPaymentsPercentage.toFixed(3)),
-                                               $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
-                                               $rootScope.auction_doc.noticePublicationDate,
-                                               $rootScope.auction_doc.NBUdiscountRate)
-        }
-        else
-        {
-            bid_amount = 0;
-        }
+        var bid_amount = AuctionUtils.npv(parseInt(contractDurationYears.toFixed()),
+                                          parseInt(contractDurationDays.toFixed()),
+                                          parseFloat(yearlyPaymentsPercentage.toFixed(3)),
+                                          $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+                                          $rootScope.auction_doc.noticePublicationDate,
+                                          $rootScope.auction_doc.NBUdiscountRate)
         if (bid_amount == $rootScope.minimal_bid.amount) {
           var msg_id = Math.random();
           $rootScope.alerts.push({
@@ -843,22 +831,15 @@ angular.module('auction').controller('AuctionController',[
     }
     $rootScope.calculate_full_price_temp = function() {
       var bid;
-      if ($rootScope.validate_npv_input_data(parseInt($rootScope.form.contractDurationDays),
-                                              parseInt($rootScope.form.contractDurationYears),
-                                              parseFloat($rootScope.form.yearlyPaymentsPercentage)))
-      {
-           bid = AuctionUtils.npv($rootScope.form.contractDurationYears,
-                                 $rootScope.form.contractDurationDays,
-                                 parseFloat(($rootScope.form.yearlyPaymentsPercentage / 100).toFixed(5)),
-                                 $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
-                                 $rootScope.auction_doc.noticePublicationDate,
-                                 $rootScope.auction_doc.NBUdiscountRate
-                                 );
-      }
-      else
-      {
-           bid = 0
-      }
+      if ($rootScope.form.BidsForm.$valid)
+         bid = AuctionUtils.npv($rootScope.form.contractDurationYears,
+         $rootScope.form.contractDurationDays,
+         parseFloat(($rootScope.form.yearlyPaymentsPercentage / 100).toFixed(5)),
+         $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+         $rootScope.auction_doc.noticePublicationDate,
+         $rootScope.auction_doc.NBUdiscountRate
+         )
+      else bid = 0
       $rootScope.form.full_price_temp = bid * $rootScope.bidder_coeficient;
       $rootScope.form.full_price = $rootScope.form.full_price_temp;
     };
