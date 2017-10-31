@@ -396,13 +396,12 @@ angular.module('auction').controller('AuctionController',[
     $rootScope.warning_post_bid = function(){
       growl.error('Unable to place a bid. Check that no more than 2 auctions are simultaneously opened in your browser.');
     };
-    $rootScope.calculate_yearly_payments = function(annual_costs_reduction, yearlyPaymentsPercentage){
-      return math.fraction(annual_costs_reduction) * math.fraction(yearlyPaymentsPercentage)
-    }
     $rootScope.calculate_current_npv = function(){
        contractDurationYears = $rootScope.form.contractDurationYears || 0;
        contractDurationDays = $rootScope.form.contractDurationDays || 0;
        yearlyPaymentsPercentage = $rootScope.form.yearlyPaymentsPercentage || 0;
+       if ($rootScope.form.BidsForm.$valid)
+        {
         $rootScope.current_npv = AuctionUtils.npv(
              parseInt(contractDurationYears.toFixed()),
              parseInt(contractDurationDays.toFixed()),
@@ -411,6 +410,10 @@ angular.module('auction').controller('AuctionController',[
              $rootScope.auction_doc.noticePublicationDate,
              $rootScope.auction_doc.NBUdiscountRate
         )
+        }
+        else {
+            $rootScope.current_npv = 0;
+        }
     };
     $rootScope.post_bid = function(contractDurationYears, contractDurationDays, yearlyPaymentsPercentage) {
       contractDurationYears = contractDurationYears || $rootScope.form.contractDurationYears || 0;
@@ -436,14 +439,12 @@ angular.module('auction').controller('AuctionController',[
       }
       if ($rootScope.form.BidsForm.$valid) {
         $rootScope.alerts = [];
-
         var bid_amount = AuctionUtils.npv(parseInt(contractDurationYears.toFixed()),
-                                       parseInt(contractDurationDays.toFixed()),
-                                       parseFloat(yearlyPaymentsPercentage.toFixed(3)),
-                                       $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
-                                       $rootScope.auction_doc.noticePublicationDate,
-                                       $rootScope.auction_doc.NBUdiscountRate
-                                     )
+                                          parseInt(contractDurationDays.toFixed()),
+                                          parseFloat(yearlyPaymentsPercentage.toFixed(3)),
+                                          $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+                                          $rootScope.auction_doc.noticePublicationDate,
+                                          $rootScope.auction_doc.NBUdiscountRate)
         if (bid_amount == $rootScope.minimal_bid.amount) {
           var msg_id = Math.random();
           $rootScope.alerts.push({
@@ -823,13 +824,16 @@ angular.module('auction').controller('AuctionController',[
       }
     }
     $rootScope.calculate_full_price_temp = function() {
-      var bid = AuctionUtils.npv($rootScope.form.contractDurationYears,
-                                 $rootScope.form.contractDurationDays,
-                                 parseFloat(($rootScope.form.yearlyPaymentsPercentage / 100).toFixed(5)),
-                                 $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
-                                 $rootScope.auction_doc.noticePublicationDate,
-                                 $rootScope.auction_doc.NBUdiscountRate
-                                 );
+      var bid;
+      if ($rootScope.form.BidsForm.$valid)
+         bid = AuctionUtils.npv($rootScope.form.contractDurationYears,
+         $rootScope.form.contractDurationDays,
+         parseFloat(($rootScope.form.yearlyPaymentsPercentage / 100).toFixed(5)),
+         $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+         $rootScope.auction_doc.noticePublicationDate,
+         $rootScope.auction_doc.NBUdiscountRate
+         )
+      else bid = 0
       $rootScope.form.full_price_temp = bid * $rootScope.bidder_coeficient;
       $rootScope.form.full_price = $rootScope.form.full_price_temp;
     };
