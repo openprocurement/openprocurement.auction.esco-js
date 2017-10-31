@@ -1,9 +1,26 @@
+// ***
+// * Varibles
+// ***
+// @screen-xs-max: 767px;
+// @screen-xs-min: 768px;
+@screen-sm-max: 767px;
+@screen-sm-min: 768px;
+@screen-md-max: 991px;
+@screen-md-min: 992px;
+@color-text: #fff;
+@primary-color: #d26565;
+
+// ***
+// * Styles
+// ***
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
 body {
     padding-top: 73px;
-    padding-bottom: 196px;
+    // padding-bottom: 196px;
+    padding-bottom: 252px;
 }
 // .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4,
 // .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8,
@@ -38,6 +55,9 @@ body {
     max-height: 61px;
     line-height: normal;
     overflow: hidden;
+    // @media (max-width: @screen-sm-max) {
+    //     line-height: 15px;
+    // }
 }
 
 /* Navigation button */
@@ -299,31 +319,6 @@ body {
 //     padding-left: 8px;
 // }
 
-
-.bid-info-block {
-    background-color: #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.bid-info-title {
-    font-weight: bold;
-    padding: 10px;
-}
-.bid-info-value {
-    background-color: #f2f2f2;
-    border-radius: 0 0 10px 10px;
-    padding: 10px;
-}
-
-
-// #edit-bid-button,
-// #place-bid-button {
-//     margin-right: 15px;
-// }
-.btn {
-    border-radius: 0;
-}
 .auction-with-one-price .input-group-btn {
     padding-top: 0;
 }
@@ -393,24 +388,6 @@ body {
     /*.normalized-price-group.not-allow-bidding {*/
     /*  margin-top: 5px;*/
     /*  }*/
-    #cancel-bid-button,
-    #place-bid-button,
-    #edit-bid-button,
-    #clear-bid-button {
-        border-radius: 0px;
-        white-space: normal;
-        float: left;
-        padding: 6px 12px;
-    }
-    #place-bid-button {
-        margin-right: 0;
-    }
-    #clear-bid-button {
-        margin-top: 30px;
-    }
-    #edit-bid-button {
-        margin-top: 5px;
-    }
     .full-price-group span {
         padding-bottom: 2px;
     }
@@ -436,14 +413,6 @@ body {
     .auction-with-one-price #clear-bid-button {
         white-space: nowrap;
         margin: 0 15px 0 0;
-    }
-    #edit-bid-button {
-        margin-top: 0;
-        width: 100%;
-        margin-bottom: 15px;
-    }
-    #cancel-bid-button {
-        margin-top: 35px;
     }
     .auction-with-one-price #edit-bid-button {
         width: auto;
@@ -588,7 +557,6 @@ body {
 
 @font-face {
     font-family: 'Glyphicons Halflings';
-
     src: url('../fonts/glyphicons-halflings-regular.eot');
     src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
@@ -607,4 +575,218 @@ body {
 
 .header-auction.navbar-fixed-top {
     z-index:99;
+}
+
+// ***
+// * Bids form
+// ***
+.xs-max-hidden {
+    @media (max-width: @screen-sm-max) {
+        display: none;
+    }
+}
+.xs-min-hidden {
+    label& {
+        font-size: 12px;
+        height: 35px;
+        line-height: 12px;
+        margin-bottom: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: top;
+    }
+    @media (min-width: @screen-sm-min) {
+        display: none;
+    }
+}
+.bids-form {
+    background-color: @primary-color;
+    box-shadow: 0 4px 20px -4px #000;
+    color: #fff;
+    max-height: 60%;
+    overflow-y: auto;
+    padding-bottom: 8px;
+    h3 {
+        font-size: 20px;
+        margin-bottom: 4px;
+        margin-top: 6px;
+        @media (min-width: @screen-sm-min) {
+            font-size: 24px;
+            margin-bottom: 8px;
+            margin-top: 10px;
+        }
+        @media (min-width: @screen-md-min) {
+            margin-bottom: 16px;
+            margin-top: 20px;
+        }
+    }
+    h4 {
+        font-size: 16px;
+        margin-bottom: 4px;
+        margin-top: 0;
+        @media (min-width: @screen-md-min) {
+            margin-bottom: 10px;
+        }
+    }
+    .row {
+        @media (max-width: @screen-sm-max) {
+            margin-left: -4px;
+            margin-right: -4px;
+        }
+    }
+    .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9,
+    .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9,
+    .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9,
+    .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+        @media (max-width: @screen-sm-max) {
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+    }
+    .input-cd-years {
+        @media (min-width: @screen-sm-min) and (max-width: @screen-md-max) {
+            clear: left;
+        }
+    }
+    .input-yearly-procents {
+        @media (min-width: @screen-sm-min) and (max-width: @screen-md-max) {
+            margin-top: -22px;
+        }
+    }
+    .input-group .form-control {
+        @media (max-width: @screen-sm-max) {
+            border-radius: 4px;
+        }
+    }
+    .input-group .form-control:not(:first-child):not(:last-child),{
+        border-radius: 4px;
+    }
+    .btn {
+        margin-bottom: 8px;
+    }
+}
+
+.bids-form-esco {
+    .row {
+        margin-left: -4px;
+        margin-right: -4px;
+    }
+    .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9,
+    .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9,
+    .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9,
+    .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+}
+.bids-info-block {
+    @media (max-width: @screen-sm-max) {
+        background-color: #bc4d4d;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+    }
+}
+.bid-info-block {
+    background-color: #bc4d4d;
+    overflow: hidden;
+    padding: 0 8px;
+    text-overflow: ellipsis;
+    @media (max-width: @screen-sm-max) {
+        font-size: 12px;
+        padding: 2px 0 0;
+    }
+    @media (min-width: @screen-sm-min) {
+        border-radius: 4px;
+        margin-bottom: 8px;
+        padding: 0;
+    }
+    @media (min-width: @screen-md-min) {
+        text-align: center;
+    }
+}
+.bid-info-title {
+    display: inline-block;
+    font-weight: bold;
+    vertical-align: middle;
+    @media (min-width: @screen-sm-min) {
+        padding: 4px 8px;
+    }
+    @media (min-width: @screen-md-min) {
+        background-color: #ab4343;
+        border-radius: 4px 4px 0 0;
+        display: table;
+        font-size: 9px;
+        height: 32px;
+        padding: 3px 3px 4px;
+        text-transform: uppercase;
+        width: 100%;
+    }
+}
+.bid-info-visual {
+    @media (min-width: @screen-md-min) {
+        display: table-cell;
+        vertical-align: middle;
+    }
+}
+.bid-info-help-text {
+    text-transform: none;
+    @media (min-width: @screen-md-min) {
+        display: block;
+    }
+}
+.bid-info-value {
+    display: inline-block;
+    font-weight: bold;
+    vertical-align: middle;
+    @media (min-width: @screen-sm-min) {
+        padding: 4px 8px 4px 0;
+    }
+    @media (min-width: @screen-md-min) {
+        display: table;
+        font-size: 26px;
+        height: 54px;
+        line-height: 22px;
+        width: 100%;
+    }
+    .bid-info-help-text {
+        font-size: 12px;
+    }
+}
+
+// ***
+// * Button Styles
+// ***
+.button-group {
+    text-align: left;
+    @media (min-width: @screen-md-min) {
+        text-align: right;
+    }
+}
+.btn {
+    border-radius: 0;
+}
+#cancel-bid-button,
+#place-bid-button,
+#edit-bid-button,
+#clear-bid-button {
+    border-radius: 4px;
+    line-height: 1.5rem;
+    padding: 8px 12px;
+    white-space: normal;
+    @media (max-width: @screen-sm-max) {
+        min-width: 32%;
+    }
+    @media (min-width: @screen-md-min) {
+        width: 100%;
+    }
+}
+#edit-bid-button {
+    @media (max-width: @screen-sm-max) {
+        margin-top: 4px;
+    }
+}
+#clear-bid-button {
+    background-color: @primary-color;
+    margin: 0;
+    text-decoration: underline;
 }

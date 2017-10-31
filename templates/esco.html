@@ -381,76 +381,144 @@
     </div>
     <div class="container-fluid">
         <div ng-show="((auction_doc.current_stage < 0)&&bidder_id)||follow_login_allowed" class="panel panel-default bg-warning fixed-bottom">
-            <div class="panel-body bg-warning">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div ng-if="!bidder_id" class="container text-center">
-                            <h4 id="wait-to-login-msg" translate ng-if="!follow_login">Login is currently closed.</h4>
-                            <a ng-href="{{login_url}}" ng-if="!follow_login" translate>Please try again later.</a>
-                            <a ng-href="{{login_url}}" class="btn btn-success btn-lg btn-block" ng-if="follow_login"><span  translate>Login</span></a>
-
-                        </div>
-                        <div ng-if="bidder_id && auction_doc.current_stage < 0" class="container text-center">
-                            <h4 id="registered-bidder-msg" translate ng-if="!follow_login">You are registered as a bidder. Wait for the start of the auction.</h4>
-                        </div>
-                    </div>
+            <div class="bids-form-info bids-form fixed-bottom">
+                <div ng-if="!bidder_id" class="container text-center">
+                    <h3 id="wait-to-login-msg" translate ng-if="!follow_login">Login is currently closed.</h3>
+                    <a ng-href="{{login_url}}" ng-if="!follow_login" translate>Please try again later.</a>
+                    <a ng-href="{{login_url}}" class="btn btn-success btn-lg btn-block" ng-if="follow_login"><span  translate>Login</span></a>
+                </div>
+                <div ng-if="bidder_id && auction_doc.current_stage < 0" class="container text-center">
+                    <h3 id="registered-bidder-msg" translate ng-if="!follow_login">You are registered as a bidder. Wait for the start of the auction.</h3>
                 </div>
             </div>
         </div>
-        <div ng-show="view_bids_form" class="panel panel-default bg-warning fixed-bottom" ng-class="{'auction-with-one-price': (auction_doc.auction_type||'default') == 'default'}">
-            <div class="panel-body bg-warning">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="container">
-                            <alert ng-repeat="alert in alerts" type="{{alert.type}}" class="bids-form-alert" close="closeAlert(alert.msg_id)"><span class="bids-form-alert-msg">{{ alert.msg | translate }}</span></alert>
-                            <form id="BidsForm" name="form.BidsForm" role="form">
-                                <label for="bid"><span translate>Your proposal</span>:</label>
-                                <span ng-init="max_bid_amount()" class="max_bid_amount" id="max_bid_amount" ng-if="(auction_doc.auction_type||'default') == 'default'"><span id="max_bid_amount_price">{{ calculated_max_bid_amount|fraction }}</span> {{'or higher'|translate}}</span>
-                                <span>Current NPV {{ current_npv | fraction }}</span>
-                                <div class="price-inform-block" ng-if="auction_doc.auction_type == 'meat'">
-                                    <div class="col-md-5 col-sm-5 full-price-group">
-                                        <span translate ng-if="auction_doc.auction_type == 'meat'">Full Price</span>
-                                        <span ng-init="max_bid_amount()" class="max_bid_amount" ng-if="auction_doc.auction_type == 'meat'"><span>{{ calculated_max_bid_amount|fraction }}</span> {{'or higher'|translate}}</span>
-                                    </div>
-                                    <div class="col-md-5 col-sm-5 normalized-price-group">
-                                        <span translate>Normilized Price</span>
-                                        <span ng-init="max_bid_amount()" class="max_bid_amount"><span>{{ calculated_max_bid_amount * bidder_coeficient|fraction }}</span> {{'or higher'|translate}}</span>
-                                    </div>
-                                </div>
-                                <div class="input-group main-price-block">
-                                    <div class="full-price-group" ng-class="{'col-md-3 col-sm-3 col-xs-11': auction_doc.auction_type == 'meat', 'col-md-8 col-sm-8': (auction_doc.auction_type||'default') == 'default'}" >
-                                        <span translate ng-if="auction_doc.auction_type == 'meat'">Full Price</span>
-                                        <span ng-init="max_bid_amount()" class="max_bid_amount" ng-if="auction_doc.auction_type == 'meat'"><span>{{ calculated_max_bid_amount|fraction }}</span> {{'or higher'|translate}}</span>
-                                        <span style="display:block;">{{'Contract Duration Years'|translate}}</span>
-
-                                        <input id="contract-duration-years-input" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.contractDurationYears" ng-change="calculate_current_npv(); calculate_full_price_temp()" name="contractDurationYears" min="0" required format>
-                                        <span style="display:block;">{{'Contract Duration Days'|translate}}</span>
-                                        <input id="contract-duration-days-input" ng-disabled="!allow_bidding" class="form-control"  ng-model="$root.form.contractDurationDays" ng-change="calculate_current_npv(); calculate_full_price_temp()" name="contractDurationDays" min="0" format>
-                                        <span style="display:block;">{{'Yearly Payments Percentage'|translate}}</span>
-                                        <input id="yearly-payments-percentage" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.yearlyPaymentsPercentage" name="yearlyPaymentsPercentage" ng-focus="$root.form.yearlyPaymentsPercentage_temp = $root.form.yearlyPaymentsPercentage" ng-blur="set_yearly_payments_percentage_from_temp()" ng-change="calculate_yearly_payments_percentage_temp(); calculate_current_npv(); calculate_full_price_temp()" min="0" required format>
-
-                                    </div>
-                                    <div class="bidder-coeficient-wrap col-md-2 col-sm-2 col-xs-11" ng-if="auction_doc.auction_type == 'meat'">
-                                        <span translate>Bidder Coeficient</span>
-                                        <span id="bid-amount-description" ng-if="bidder_coeficient && !$root.normilized" tooltip="x {{bidder_coeficient| fraction_string}}" tooltip-trigger="focus"> {{bidder_coeficient| fraction}}</span>
-                                    </div>
-                                    <div class="normalized-price-group col-xs-11 col-md-3 col-sm-3" ng-class="{'not-allow-bidding': !allow_bidding}" ng-if="auction_doc.auction_type == 'meat' ">
-                                        <span translate>Normilized Price</span>
-                                        <span ng-init="max_bid_amount()" class="max_bid_amount" ><span>{{ calculated_max_bid_amount * bidder_coeficient|fraction }} </span> {{'or higher'|translate}}</span>
-                                        <input id="bid-amount-full-price" ng-disabled="!allow_bidding" min="0" class="form-control" id="full_price" name="full_price" ng-model="$root.form.full_price" required readonly format>
-                                    </div>
-                                    <div class="input-group-btn col-md-4 col-sm-4 pull-right">
-                                        <button id="place-bid-button" type="submit" ng-if="allow_bidding" ng-click="post_bid()" class="btn btn-success" ng-class="{'active': form.active}" translate>Place a bid</button>
-                                        <button id="edit-bid-button" type="submit" ng-if="!allow_bidding" ng-click="edit_bid()" class="btn btn-link" translate>Edit</button>
-                                        <!--TODO fix bid cancellation-->
-                                        <button id="cancel-bid-button" type="submit" ng-if="!allow_bidding" ng-click="post_bid(-1)" class="btn btn-danger" ng-class="{'active': form.active}" translate>Cancel Bid</button>
-                                        <button id="clear-bid-button" type="submit" ng-if="allow_bidding" ng-click="($root.form.yearlyPaymentsPercentage = '');($root.form.contractDurationDays = '');($root.form.contractDurationYears = '');($root.form.bid_temp = null);($root.form.bid = null)" class="btn btn-primary" translate>Clear</button>
+        <div ng-show="view_bids_form"
+             class="bids-form fixed-bottom"
+             ng-class="{'auction-with-one-price': (auction_doc.auction_type||'default') == 'default',
+                        'bids-form-esco': (auction_doc.auction_type||'default') == 'meat'}">
+            <div class="container">
+                <alert ng-repeat="alert in alerts" type="{{alert.type}}" class="bids-form-alert" close="closeAlert(alert.msg_id)"><span class="bids-form-alert-msg">{{ alert.msg | translate }}</span></alert>
+                <h3 translate>Your proposal</h3>
+                <form id="BidsForm" name="form.BidsForm" role="form">
+                    <div class="row">
+                        <div class="bids-info-block col-sm-12 col-xs-12"
+                             ng-class="{'col-md-3': (auction_doc.auction_type||'default') == 'default',
+                                        'col-md-5': (auction_doc.auction_type||'default') == 'meat'}">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12"
+                                     ng-class="{'col-md-12': (auction_doc.auction_type||'default') == 'default',
+                                                'col-md-6': (auction_doc.auction_type||'default') == 'meat'}">
+                                    <div class="bid-info-block">
+                                        <div class="bid-info-title">
+                                            <div class="bid-info-visual" translate>
+                                                Full Price
+                                            </div>
+                                        </div>
+                                        <div ng-init="max_bid_amount()" class="bid-info-value">
+                                            <div class="bid-info-visual">
+                                                {{ calculated_max_bid_amount|fraction }}
+                                                <span class="bid-info-help-text">
+                                                    {{'or higher'|translate}}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </form>
+                                <div class="col-sm-6 col-xs-12"
+                                     ng-class="{'col-md-12': (auction_doc.auction_type||'default') == 'default',
+                                                'col-md-6': (auction_doc.auction_type||'default') == 'meat'}">
+                                    <div class="bid-info-block">
+                                        <div class="bid-info-title">
+                                            <div class="bid-info-visual" translate>
+                                                Current NPV:
+                                            </div>
+                                        </div>
+                                        <div id="current-npv" class="bid-info-value">
+                                            <div class="bid-info-visual">
+                                                {{ current_npv | fraction }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12" ng-if="auction_doc.auction_type == 'meat'">
+                                    <div class="bid-info-block">
+                                        <div class="bid-info-title">
+                                            <div class="bid-info-visual" translate>
+                                                Bidder Coeficient
+                                            </div>
+                                        </div>
+                                        <div id="bid-amount-description" class="bid-info-value" ng-if="bidder_coeficient && !$root.normilized" tooltip="x {{bidder_coeficient| fraction_string}}" tooltip-trigger="focus">
+                                            <div class="bid-info-visual">
+                                                {{bidder_coeficient| fraction}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12" ng-if="auction_doc.auction_type == 'meat'">
+                                    <div class="bid-info-block">
+                                        <div class="bid-info-title">
+                                            <div class="bid-info-visual">
+                                                {{'Normilized Price'|translate}}
+                                                <span class="bid-info-help-text" ng-init="max_bid_amount()">
+                                                    ({{ calculated_max_bid_amount * bidder_coeficient|fraction }} {{'or higher'|translate}})
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div id="bid-amount-full-price" class="bid-info-value">
+                                            <div class="bid-info-visual" ng-bind="$root.form.full_price">
+                                                {{ $root.form.full_price|fraction }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-xs-12"
+                             ng-class="{'col-md-9': (auction_doc.auction_type||'default') == 'default',
+                                        'col-md-7': (auction_doc.auction_type||'default') == 'meat'}">
+                            <div class="row">
+                                <div class="col-xs-12"
+                                     ng-class="{'col-md-9': (auction_doc.auction_type||'default') == 'default',
+                                                'col-md-8': (auction_doc.auction_type||'default') == 'meat'}">
+                                    <div class="row">
+                                        <h4 class="col-md-12 col-xs-12 col-sm-8 text-center xs-max-hidden" translate>Contract Duration</h4>
+                                        <div class="input-cd-years form-group col-md-6 col-sm-4 col-xs-4">
+                                            <label class="xs-min-hidden" for="contractDurationYears" translate>Contract Duration Years</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon xs-max-hidden" translate>Years</div>
+                                                <input id="contract-duration-years-input" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.contractDurationYears" ng-change="calculate_current_npv(); calculate_full_price_temp()" name="contractDurationYears" id="contractDurationYears" min="0" required format>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-4 col-xs-4">
+                                            <label class="xs-min-hidden" for="contractDurationDays" translate>Contract Duration Days</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon xs-max-hidden" translate>Days</div>
+                                                <input id="contract-duration-days-input" ng-disabled="!allow_bidding" class="form-control"  ng-model="$root.form.contractDurationDays" ng-change="calculate_current_npv(); calculate_full_price_temp()" name="contractDurationDays" min="0" format>
+                                            </div>
+                                        </div>
+                                        <div class="input-yearly-procents form-group col-md-12 col-sm-4 col-xs-4">
+                                            <h4 class="text-center xs-max-hidden" translate>Yearly Payments</h4>
+                                            <label class="xs-min-hidden" for="yearlyPaymentsPercentage" translate>Yearly Payments Percentage</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon xs-max-hidden" translate>%</div>
+                                                <input id="yearly-payments-percentage" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.yearlyPaymentsPercentage" name="yearlyPaymentsPercentage" ng-focus="$root.form.yearlyPaymentsPercentage_temp = $root.form.yearlyPaymentsPercentage" ng-blur="set_yearly_payments_percentage_from_temp()" ng-change="calculate_yearly_payments_percentage_temp(); calculate_current_npv(); calculate_full_price_temp()" min="0" required format>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 button-group"
+                                     ng-class="{'col-md-3': (auction_doc.auction_type||'default') == 'default',
+                                                'col-md-4': (auction_doc.auction_type||'default') == 'meat'}">
+                                    <button id="place-bid-button" type="submit" ng-if="allow_bidding" ng-click="post_bid()" class="btn btn-success" ng-class="{'active': form.active}" translate>Place a bid</button>
+                                    <button id="edit-bid-button" type="submit" ng-if="!allow_bidding" ng-click="edit_bid()" class="btn btn-link" translate>Edit</button>
+                                    <!--TODO fix bid cancellation-->
+                                    <button id="cancel-bid-button" type="submit" ng-if="!allow_bidding" ng-click="post_bid(-1)" class="btn btn-warning" ng-class="{'active': form.active}" translate>Cancel Bid</button>
+                                    <button id="clear-bid-button" type="submit" ng-if="allow_bidding" ng-click="($root.form.yearlyPaymentsPercentage = '');($root.form.contractDurationDays = '');($root.form.contractDurationYears = '');($root.form.bid_temp = null);($root.form.bid = null);calculate_full_price_temp()" class="btn" translate>Clear</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

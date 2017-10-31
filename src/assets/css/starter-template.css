@@ -8,7 +8,7 @@
 }
 body {
   padding-top: 73px;
-  padding-bottom: 196px;
+  padding-bottom: 252px;
 }
 /*----- Header -----*/
 /* Header auction*/
@@ -276,24 +276,6 @@ body {
   padding: 0px 0 6px;
   font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-.bid-info-block {
-  background-color: #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.bid-info-title {
-  font-weight: bold;
-  padding: 10px;
-}
-.bid-info-value {
-  background-color: #f2f2f2;
-  border-radius: 0 0 10px 10px;
-  padding: 10px;
-}
-.btn {
-  border-radius: 0;
-}
 .auction-with-one-price .input-group-btn {
   padding-top: 0;
 }
@@ -361,24 +343,6 @@ body {
   /*.normalized-price-group.not-allow-bidding {*/
   /*  margin-top: 5px;*/
   /*  }*/
-  #cancel-bid-button,
-  #place-bid-button,
-  #edit-bid-button,
-  #clear-bid-button {
-    border-radius: 0px;
-    white-space: normal;
-    float: left;
-    padding: 6px 12px;
-  }
-  #place-bid-button {
-    margin-right: 0;
-  }
-  #clear-bid-button {
-    margin-top: 30px;
-  }
-  #edit-bid-button {
-    margin-top: 5px;
-  }
   .full-price-group span {
     padding-bottom: 2px;
   }
@@ -404,14 +368,6 @@ body {
   .auction-with-one-price #clear-bid-button {
     white-space: nowrap;
     margin: 0 15px 0 0;
-  }
-  #edit-bid-button {
-    margin-top: 0;
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  #cancel-bid-button {
-    margin-top: 35px;
   }
   .auction-with-one-price #edit-bid-button {
     width: auto;
@@ -560,4 +516,329 @@ body {
 }
 .header-auction.navbar-fixed-top {
   z-index: 99;
+}
+@media (max-width: 767px) {
+  .xs-max-hidden {
+    display: none;
+  }
+}
+label.xs-min-hidden {
+  font-size: 12px;
+  height: 35px;
+  line-height: 12px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+@media (min-width: 768px) {
+  .xs-min-hidden {
+    display: none;
+  }
+}
+.bids-form {
+  background-color: #d26565;
+  box-shadow: 0 4px 20px -4px #000;
+  color: #fff;
+  max-height: 60%;
+  overflow-y: auto;
+  padding-bottom: 8px;
+}
+.bids-form h3 {
+  font-size: 20px;
+  margin-bottom: 4px;
+  margin-top: 6px;
+}
+@media (min-width: 768px) {
+  .bids-form h3 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    margin-top: 10px;
+  }
+}
+@media (min-width: 992px) {
+  .bids-form h3 {
+    margin-bottom: 16px;
+    margin-top: 20px;
+  }
+}
+.bids-form h4 {
+  font-size: 16px;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+@media (min-width: 992px) {
+  .bids-form h4 {
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 767px) {
+  .bids-form .row {
+    margin-left: -4px;
+    margin-right: -4px;
+  }
+}
+@media (max-width: 767px) {
+  .bids-form .col-lg-1,
+  .bids-form .col-lg-10,
+  .bids-form .col-lg-11,
+  .bids-form .col-lg-12,
+  .bids-form .col-lg-2,
+  .bids-form .col-lg-3,
+  .bids-form .col-lg-4,
+  .bids-form .col-lg-5,
+  .bids-form .col-lg-6,
+  .bids-form .col-lg-7,
+  .bids-form .col-lg-8,
+  .bids-form .col-lg-9,
+  .bids-form .col-md-1,
+  .bids-form .col-md-10,
+  .bids-form .col-md-11,
+  .bids-form .col-md-12,
+  .bids-form .col-md-2,
+  .bids-form .col-md-3,
+  .bids-form .col-md-4,
+  .bids-form .col-md-5,
+  .bids-form .col-md-6,
+  .bids-form .col-md-7,
+  .bids-form .col-md-8,
+  .bids-form .col-md-9,
+  .bids-form .col-sm-1,
+  .bids-form .col-sm-10,
+  .bids-form .col-sm-11,
+  .bids-form .col-sm-12,
+  .bids-form .col-sm-2,
+  .bids-form .col-sm-3,
+  .bids-form .col-sm-4,
+  .bids-form .col-sm-5,
+  .bids-form .col-sm-6,
+  .bids-form .col-sm-7,
+  .bids-form .col-sm-8,
+  .bids-form .col-sm-9,
+  .bids-form .col-xs-1,
+  .bids-form .col-xs-10,
+  .bids-form .col-xs-11,
+  .bids-form .col-xs-12,
+  .bids-form .col-xs-2,
+  .bids-form .col-xs-3,
+  .bids-form .col-xs-4,
+  .bids-form .col-xs-5,
+  .bids-form .col-xs-6,
+  .bids-form .col-xs-7,
+  .bids-form .col-xs-8,
+  .bids-form .col-xs-9 {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .bids-form .input-cd-years {
+    clear: left;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .bids-form .input-yearly-procents {
+    margin-top: -22px;
+  }
+}
+@media (max-width: 767px) {
+  .bids-form .input-group .form-control {
+    border-radius: 4px;
+  }
+}
+.bids-form .input-group .form-control:not(:first-child):not(:last-child) {
+  border-radius: 4px;
+}
+.bids-form .btn {
+  margin-bottom: 8px;
+}
+.bids-form-esco .row {
+  margin-left: -4px;
+  margin-right: -4px;
+}
+.bids-form-esco .col-lg-1,
+.bids-form-esco .col-lg-10,
+.bids-form-esco .col-lg-11,
+.bids-form-esco .col-lg-12,
+.bids-form-esco .col-lg-2,
+.bids-form-esco .col-lg-3,
+.bids-form-esco .col-lg-4,
+.bids-form-esco .col-lg-5,
+.bids-form-esco .col-lg-6,
+.bids-form-esco .col-lg-7,
+.bids-form-esco .col-lg-8,
+.bids-form-esco .col-lg-9,
+.bids-form-esco .col-md-1,
+.bids-form-esco .col-md-10,
+.bids-form-esco .col-md-11,
+.bids-form-esco .col-md-12,
+.bids-form-esco .col-md-2,
+.bids-form-esco .col-md-3,
+.bids-form-esco .col-md-4,
+.bids-form-esco .col-md-5,
+.bids-form-esco .col-md-6,
+.bids-form-esco .col-md-7,
+.bids-form-esco .col-md-8,
+.bids-form-esco .col-md-9,
+.bids-form-esco .col-sm-1,
+.bids-form-esco .col-sm-10,
+.bids-form-esco .col-sm-11,
+.bids-form-esco .col-sm-12,
+.bids-form-esco .col-sm-2,
+.bids-form-esco .col-sm-3,
+.bids-form-esco .col-sm-4,
+.bids-form-esco .col-sm-5,
+.bids-form-esco .col-sm-6,
+.bids-form-esco .col-sm-7,
+.bids-form-esco .col-sm-8,
+.bids-form-esco .col-sm-9,
+.bids-form-esco .col-xs-1,
+.bids-form-esco .col-xs-10,
+.bids-form-esco .col-xs-11,
+.bids-form-esco .col-xs-12,
+.bids-form-esco .col-xs-2,
+.bids-form-esco .col-xs-3,
+.bids-form-esco .col-xs-4,
+.bids-form-esco .col-xs-5,
+.bids-form-esco .col-xs-6,
+.bids-form-esco .col-xs-7,
+.bids-form-esco .col-xs-8,
+.bids-form-esco .col-xs-9 {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+@media (max-width: 767px) {
+  .bids-info-block {
+    background-color: #bc4d4d;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+  }
+}
+.bid-info-block {
+  background-color: #bc4d4d;
+  overflow: hidden;
+  padding: 0 8px;
+  text-overflow: ellipsis;
+}
+@media (max-width: 767px) {
+  .bid-info-block {
+    font-size: 12px;
+    padding: 2px 0 0;
+  }
+}
+@media (min-width: 768px) {
+  .bid-info-block {
+    border-radius: 4px;
+    margin-bottom: 8px;
+    padding: 0;
+  }
+}
+@media (min-width: 992px) {
+  .bid-info-block {
+    text-align: center;
+  }
+}
+.bid-info-title {
+  display: inline-block;
+  font-weight: bold;
+  vertical-align: middle;
+}
+@media (min-width: 768px) {
+  .bid-info-title {
+    padding: 4px 8px;
+  }
+}
+@media (min-width: 992px) {
+  .bid-info-title {
+    background-color: #ab4343;
+    border-radius: 4px 4px 0 0;
+    display: table;
+    font-size: 9px;
+    height: 32px;
+    padding: 3px 3px 4px;
+    text-transform: uppercase;
+    width: 100%;
+  }
+}
+@media (min-width: 992px) {
+  .bid-info-visual {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+.bid-info-help-text {
+  text-transform: none;
+}
+@media (min-width: 992px) {
+  .bid-info-help-text {
+    display: block;
+  }
+}
+.bid-info-value {
+  display: inline-block;
+  font-weight: bold;
+  vertical-align: middle;
+}
+@media (min-width: 768px) {
+  .bid-info-value {
+    padding: 4px 8px 4px 0;
+  }
+}
+@media (min-width: 992px) {
+  .bid-info-value {
+    display: table;
+    font-size: 26px;
+    height: 54px;
+    line-height: 22px;
+    width: 100%;
+  }
+}
+.bid-info-value .bid-info-help-text {
+  font-size: 12px;
+}
+.button-group {
+  text-align: left;
+}
+@media (min-width: 992px) {
+  .button-group {
+    text-align: right;
+  }
+}
+.btn {
+  border-radius: 0;
+}
+#cancel-bid-button,
+#place-bid-button,
+#edit-bid-button,
+#clear-bid-button {
+  border-radius: 4px;
+  line-height: 1.5rem;
+  padding: 8px 12px;
+  white-space: normal;
+}
+@media (max-width: 767px) {
+  #cancel-bid-button,
+  #place-bid-button,
+  #edit-bid-button,
+  #clear-bid-button {
+    min-width: 32%;
+  }
+}
+@media (min-width: 992px) {
+  #cancel-bid-button,
+  #place-bid-button,
+  #edit-bid-button,
+  #clear-bid-button {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  #edit-bid-button {
+    margin-top: 4px;
+  }
+}
+#clear-bid-button {
+  background-color: #d26565;
+  margin: 0;
+  text-decoration: underline;
 }

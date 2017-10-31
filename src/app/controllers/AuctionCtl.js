@@ -823,15 +823,19 @@ angular.module('auction').controller('AuctionController',[
       }
     }
     $rootScope.calculate_full_price_temp = function() {
-      var bid = AuctionUtils.npv($rootScope.form.contractDurationYears,
-                                 $rootScope.form.contractDurationDays,
-                                 parseFloat(($rootScope.form.yearlyPaymentsPercentage / 100).toFixed(5)),
-                                 $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
-                                 $rootScope.auction_doc.noticePublicationDate,
-                                 $rootScope.auction_doc.NBUdiscountRate
-                                 );
-      $rootScope.form.full_price_temp = bid * $rootScope.bidder_coeficient;
-      $rootScope.form.full_price = $rootScope.form.full_price_temp;
+      if ($rootScope.form.contractDurationYears && $rootScope.form.contractDurationDays && $rootScope.form.yearlyPaymentsPercentage) {
+        var bid = AuctionUtils.npv($rootScope.form.contractDurationYears,
+                                   $rootScope.form.contractDurationDays,
+                                   parseFloat(($rootScope.form.yearlyPaymentsPercentage / 100).toFixed(5)),
+                                   $rootScope.get_annual_costs_reduction($rootScope.bidder_id),
+                                   $rootScope.auction_doc.noticePublicationDate,
+                                   $rootScope.auction_doc.NBUdiscountRate
+                                   );
+        $rootScope.form.full_price_temp = bid * $rootScope.bidder_coeficient;
+        $rootScope.form.full_price = $rootScope.form.full_price_temp;
+      } else {
+        $rootScope.form.full_price = null;
+      }
     };
     $rootScope.start();
 }]);
