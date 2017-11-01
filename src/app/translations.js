@@ -96,7 +96,14 @@ angular.module('auction').config(
     'Years': 'Years',
     'Days': 'Days',
     'Your proposal must be': 'Your proposal must be:',
-    'Current NPV': 'Current NPV:'
+    'Current NPV': 'Current NPV:',
+    'Percentage value must be between 0 and 100': 'Percentage value must be between 0 and 100',
+    'Maximun contract duration is 15 years': 'Maximun contract duration is 15 years',
+    'Amount NPV: Too low value': 'Amount NPV: Too low value',
+    'No bidder id': 'No bidder id',
+    'Provide yearlyPaymentsPercentage': 'Provide yearlyPaymentsPercentage',
+    'You can\'t bid 0 days and 0 years': 'You can\'t bid 0 days and 0 years'
+
   });
 
   $translateProvider.translations('uk', {
@@ -193,9 +200,14 @@ angular.module('auction').config(
     'Years': 'Років',
     'Days': 'Днів',
     'Your proposal must be': 'Ваша пропозиція має бути:',
-    'Current NPV': 'Поточний NPV:'
+    'Current NPV': 'Поточний NPV:',
+    'Percentage value must be between 0 and 100': 'Відсоткове значення має бути від 0 до 100',
+    'Maximun contract duration is 15 years': 'Максимальна тривалість контракту становить 15 років',
+    'Amount NPV: Too low value': 'Сума NPV: Занадто низьке значення',
+    'No bidder id': 'Не знайдено id учасника',
+    'Provide yearlyPaymentsPercentage': 'Надайте річний відсоток платежів',
+    'You can\'t bid 0 days and 0 years': 'Ви не можете встановити 0 днів та 0 років'
   });
-
 
   $translateProvider.translations('ru', {
     'Contract Duration Years': 'Длительность контракта в годах',
@@ -291,6 +303,12 @@ angular.module('auction').config(
     'Years': 'Лет',
     'Days': 'Дней',
     'Your proposal must be': 'Ваше предложение должно быть:',
-    'Current NPV': 'Текущий NPV:'
+    'Current NPV': 'Текущий NPV:',
+    'Percentage value must be between 0 and 100': 'Процентное значение должно быть от 0 до 100',
+    'Maximun contract duration is 15 years': 'Максимальная продолжительность контракта составляет 15 лет',
+    'Amount NPV: Too low value': 'Сумма NPV: Слишком низкое значение',
+    'No bidder id': 'Не найдено id участника',
+    'Provide yearlyPaymentsPercentage': 'Предоставьте годовой процент платежей',
+    'You can\'t bid 0 days and 0 years': 'Вы не имеете возможности установить 0 дней и 0 лет'
   });
 });
