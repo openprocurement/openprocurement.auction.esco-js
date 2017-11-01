@@ -5,7 +5,7 @@ angular.module('auction').config(
     $translateProvider.translations('en', {
     'Contract Duration Years': 'Contract duration years',
     'Contract Duration Days': 'Contract duration days',
-    'Yearly Payments Percentage': 'Yearly payments percentage',
+    'Percentage savings': 'Percentage savings',
     'Yearly Payments': 'Yearly payments',
     'at': 'at',
     'Announcement': 'Announcement',
@@ -102,14 +102,15 @@ angular.module('auction').config(
     'Amount NPV: Too low value': 'Amount NPV: Too low value',
     'No bidder id': 'No bidder id',
     'Provide yearlyPaymentsPercentage': 'Provide yearlyPaymentsPercentage',
-    'You can\'t bid 0 days and 0 years': 'You can\'t bid 0 days and 0 years'
+    'You can\'t bid 0 days and 0 years': 'You can\'t bid 0 days and 0 years',
+    'savings': 'savings'
 
   });
 
   $translateProvider.translations('uk', {
     'Contract Duration Years': 'Тривалість контракту в роках',
     'Contract Duration Days': 'Тривалість контракту в днях',
-    'Yearly Payments Percentage': 'Відсоток річних платежів',
+    'Percentage savings': 'Відсоток економії',
     'Yearly Payments': 'Річні платежі',
     'at': 'о',
     'Announcement': 'Оголошення результатів',
@@ -206,13 +207,14 @@ angular.module('auction').config(
     'Amount NPV: Too low value': 'Сума NPV: Занадто низьке значення',
     'No bidder id': 'Не знайдено id учасника',
     'Provide yearlyPaymentsPercentage': 'Надайте річний відсоток платежів',
-    'You can\'t bid 0 days and 0 years': 'Ви не можете встановити 0 днів та 0 років'
+    'You can\'t bid 0 days and 0 years': 'Ви не можете встановити 0 днів та 0 років',
+    'savings': 'економії'
   });
 
   $translateProvider.translations('ru', {
     'Contract Duration Years': 'Длительность контракта в годах',
     'Contract Duration Days': 'Длительность контракта в днях',
-    'Yearly Payments Percentage': 'Процент ежегодных платежей',
+    'Percentage savings': 'Процент экономии',
     'Yearly Payments': 'Ежегодные платежи',
     'at': 'о',
     'Announcement': 'Объявление результатов',
@@ -309,6 +311,7 @@ angular.module('auction').config(
     'Amount NPV: Too low value': 'Сумма NPV: Слишком низкое значение',
     'No bidder id': 'Не найдено id участника',
     'Provide yearlyPaymentsPercentage': 'Предоставьте годовой процент платежей',
-    'You can\'t bid 0 days and 0 years': 'Вы не имеете возможности установить 0 дней и 0 лет'
+    'You can\'t bid 0 days and 0 years': 'Вы не имеете возможности установить 0 дней и 0 лет',
+    'savings': 'экономии'
   });
 });
