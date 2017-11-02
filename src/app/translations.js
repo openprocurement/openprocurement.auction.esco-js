@@ -95,16 +95,17 @@ angular.module('auction').config(
     'Contract duration': 'Contract duration',
     'Years': 'Years',
     'Days': 'Days',
-    'Your proposal must be': 'Your proposal must be:',
-    'Current NPV': 'Current NPV:',
+    'Current EIESC': 'Current EIESC:',
     'Percentage value must be between 0 and 100': 'Percentage value must be between 0 and 100',
     'Maximun contract duration is 15 years': 'Maximun contract duration is 15 years',
-    'Amount NPV: Too low value': 'Amount NPV: Too low value',
+    'Amount NPV: Too low value': 'Amount EIESC: Too low value',
     'No bidder id': 'No bidder id',
     'Provide yearlyPaymentsPercentage': 'Provide yearlyPaymentsPercentage',
     'You can\'t bid 0 days and 0 years': 'You can\'t bid 0 days and 0 years',
-    'savings': 'savings'
-
+    'savings': 'savings',
+    'Normilized EIESC': 'Normilized EIESC:',
+    'Current energy efficiency value of energy service contract': 'Current energy efficiency value of energy service contract',
+    'Calculated energy efficiency value of energy service contract': 'Calculated energy efficiency value of energy service contract'
   });
 
   $translateProvider.translations('uk', {
@@ -200,15 +201,17 @@ angular.module('auction').config(
     'Contract duration': 'Тривалість контракту',
     'Years': 'Років',
     'Days': 'Днів',
-    'Your proposal must be': 'Ваша пропозиція має бути:',
-    'Current NPV': 'Поточний NPV:',
+    'Current EIESC': 'Поточний ПЕД:',
     'Percentage value must be between 0 and 100': 'Відсоткове значення має бути від 0 до 100',
     'Maximun contract duration is 15 years': 'Максимальна тривалість контракту становить 15 років',
-    'Amount NPV: Too low value': 'Сума NPV: Занадто низьке значення',
+    'Amount NPV: Too low value': 'Сума ПЕД: Занадто низьке значення',
     'No bidder id': 'Не знайдено id учасника',
     'Provide yearlyPaymentsPercentage': 'Надайте річний відсоток платежів',
     'You can\'t bid 0 days and 0 years': 'Ви не можете встановити 0 днів та 0 років',
-    'savings': 'економії'
+    'savings': 'економії',
+    'Normilized EIESC': 'Приведений ПЕД:',
+    'Current energy efficiency value of energy service contract': 'Поточний показник енергоефективності енергосервісного договору',
+    'Calculated energy efficiency value of energy service contract': 'Приведений показник енергоефективності енергосервісного договору'
   });
 
   $translateProvider.translations('ru', {
@@ -304,14 +307,16 @@ angular.module('auction').config(
     'Contract duration': 'Продолжительность контракта',
     'Years': 'Лет',
     'Days': 'Дней',
-    'Your proposal must be': 'Ваше предложение должно быть:',
-    'Current NPV': 'Текущий NPV:',
+    'Current EIESC': 'Текущий ПЕД:',
     'Percentage value must be between 0 and 100': 'Процентное значение должно быть от 0 до 100',
     'Maximun contract duration is 15 years': 'Максимальная продолжительность контракта составляет 15 лет',
-    'Amount NPV: Too low value': 'Сумма NPV: Слишком низкое значение',
+    'Amount NPV: Too low value': 'Сумма ПЕД: Слишком низкое значение',
     'No bidder id': 'Не найдено id участника',
     'Provide yearlyPaymentsPercentage': 'Предоставьте годовой процент платежей',
     'You can\'t bid 0 days and 0 years': 'Вы не имеете возможности установить 0 дней и 0 лет',
-    'savings': 'экономии'
+    'savings': 'экономии',
+    'Normilized EIESC': 'Приведенный ПЕД:',
+    'Current energy efficiency value of energy service contract': 'Текущий показатель энергоэффективности энергосервисного договора',
+    'Calculated energy efficiency value of energy service contract': 'Рассчитанный показатель энергоэффективности энергосервисного договора'
   });
 });

@@ -12,7 +12,7 @@ body {
 }
 @media (max-width: 767px) {
   body {
-    padding-bottom: 220px;
+    padding-bottom: 240px;
   }
 }
 /*----- Header -----*/
@@ -267,10 +267,6 @@ body {
   display: block;
   padding: 0px 0 6px;
   font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-#edit-bid-button,
-#place-bid-button {
-  margin-right: 15px;
 }
 .btn {
   border-radius: 0;
@@ -651,6 +647,30 @@ body {
     font-size: 18px;
     margin-bottom: 8px;
   }
+}
+.bids-form-amount {
+  font-size: 18px;
+  line-height: 30px;
+}
+@media (min-width: 768px) {
+  .bids-form-amount {
+    margin: 0 0 15px;
+  }
+}
+.bids-form-amount .amount-header {
+  display: inline-block;
+  vertical-align: top;
+}
+.bids-form-amount .small {
+  display: block;
+  font-size: 12px;
+  line-height: 12px;
+}
+.button-wrapper button {
+  margin: 0 0 6px 15px;
+}
+.button-wrapper button:first-child {
+  margin: 0 0 6px;
 }
 @media (max-width: 767px) {
   .xs-max-hidden {

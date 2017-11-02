@@ -16,7 +16,7 @@ body {
     padding-top: 73px;
     padding-bottom: 196px;
     @media (max-width: @screen-sm-max) {
-        padding-bottom: 220px;
+        padding-bottom: 240px;
     }
 }
 
@@ -298,10 +298,10 @@ body {
 //     font-size: 18px;
 //     font-weight: normal;
 // }
-#edit-bid-button,
-#place-bid-button {
-    margin-right: 15px;
-}
+// #edit-bid-button,
+// #place-bid-button {
+//     margin-right: 15px;
+// }
 .btn {
     border-radius: 0;
 }
@@ -653,6 +653,30 @@ body {
         @media (min-width: @screen-sm-min) {
             font-size: 18px;
             margin-bottom: 8px;
+        }
+    }
+}
+.bids-form-amount {
+    font-size: 18px;
+    line-height: 30px;
+    @media (min-width: @screen-sm-min) {
+        margin: 0 0 15px;
+    }
+    .amount-header {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .small {
+        display: block;
+        font-size: 12px;
+        line-height: 12px;
+    }
+}
+.button-wrapper {
+    button {
+        margin: 0 0 6px 15px;
+        &:first-child {
+            margin: 0 0 6px;
         }
     }
 }
