@@ -605,9 +605,9 @@ angular.module('auction').controller('AuctionController',[
         $rootScope.auction_doc.initial_bids.forEach(filter_func);
         $rootScope.minimal_bid = bids.sort(function(a, b) {
           if ($rootScope.auction_doc.auction_type == 'meat') {
-            var diff = math.fraction(a.amount_features) - math.fraction(b.amount_features);
+            var diff = math.fraction(eval(a.amount_features)) - math.fraction(eval(b.amount_features));
           } else {
-            var diff = a.amount - b.amount;
+            var diff = eval(a.amount) - eval(b.amount);
           }
           if (diff == 0) {
             return Date.parse(a.time || "") - Date.parse(b.time || "");
