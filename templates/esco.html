@@ -426,12 +426,12 @@
                                     <h4 class="col-md-4 col-xs-4 col-sm-4 xs-max-hidden bids-form-header-label" translate>Yearly Payments</h4>
                                     <div class="input-cd-years col-md-4 col-sm-4 col-xs-4">
                                         <label class="xs-min-hidden" for="contract-duration-years-input" translate>Contract Duration Years</label>
-                                        <input id="contract-duration-years-input" type="number" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.contractDurationYears" ng-change="calculate_current_npv(); calculate_full_price_temp()" name="contractDurationYears" id="contractDurationYears" min="0" max="15" required format>
+                                        <input id="contract-duration-years-input" type="number" step="1" ng-disabled="!allow_bidding" class="form-control" ng-model="$root.form.contractDurationYears" ng-change="calculate_current_npv(); calculate_full_price_temp()" name="contractDurationYears" id="contractDurationYears" min="0" max="15" required format>
                                         <label for="contract-duration-years-input" class="small xs-max-hidden" translate>Years</label>
                                     </div>
                                     <div class="col-md-4 col-sm-4 col-xs-4">
                                         <label class="xs-min-hidden" for="contract-duration-days-input" translate>Contract Duration Days</label>
-                                        <input id="contract-duration-days-input" type="number" ng-disabled="!allow_bidding" class="form-control"  ng-model="$root.form.contractDurationDays" ng-change="calculate_current_npv(); calculate_full_price_temp()" name="contractDurationDays" min="0" max="364" format>
+                                        <input id="contract-duration-days-input" type="number" step="1" ng-disabled="!allow_bidding" class="form-control"  ng-model="$root.form.contractDurationDays" ng-change="calculate_current_npv(); calculate_full_price_temp()" name="contractDurationDays" min="0" max="364" format>
                                         <label for="contract-duration-days-input" class="small xs-max-hidden" translate>Days</label>
                                     </div>
                                     <div class="input-yearly-procents col-md-4 col-sm-4 col-xs-4">
