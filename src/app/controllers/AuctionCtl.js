@@ -455,21 +455,8 @@ angular.module('auction').controller('AuctionController', [
         'contractDurationDays': parseInt(contractDurationDays.toFixed()),
         'yearlyPaymentsPercentage': parseFloat((yearlyPaymentsPercentage / 100).toFixed(5))
       });
-
-      // XXX TODO Validation for to low value
-      if ($rootScope.form.contractDurationYears.toFixed() == -1) {
-        msg_id = Math.random();
-        $rootScope.alerts.push({
-          msg_id: msg_id,
-          type: 'danger',
-          msg: 'To low value'
-        });
-        $rootScope.auto_close_alert(msg_id);
-        return 0;
-      }
       if ($rootScope.form.BidsForm.$valid) {
         $rootScope.alerts = [];
-
         var bid_amount = AuctionUtils.npv(parseInt(contractDurationYears.toFixed()),
           parseInt(contractDurationDays.toFixed()),
           parseFloat(yearlyPaymentsPercentage.toFixed(3)),
