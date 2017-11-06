@@ -536,6 +536,25 @@ angular.module('auction').controller('AuctionController', [
               });
             }
             msg_id = Math.random();
+            if (success.data.data.yearlyPaymentsPercentage == -0.01) {
+              $rootScope.alerts = [];
+              $rootScope.allow_bidding = true;
+              $log.info({
+                message: "Handle cancel bid response on post bid"
+              });
+              $rootScope.alerts.push({
+                msg_id: msg_id,
+                type: 'success',
+                msg: 'Bid canceled'
+              });
+              $log.info({
+                message: "Handle cancel bid response on post bid"
+              });
+              $rootScope.form.$rootScope.form.contractDurationYears = "";
+              $rootScope.form.contractDurationDays = '';
+              $rootScope.form.$rootScope.form.yearlyPaymentsPercentage = '';
+
+            } else {
             $log.info({
               message: "Handle success response on post bid",
               bid_data: success.data.data
@@ -547,6 +566,7 @@ angular.module('auction').controller('AuctionController', [
             });
             $rootScope.allow_bidding = false;
             $rootScope.auto_close_alert(msg_id);
+            }
           }
         }, function(error) {
           $log.info({
