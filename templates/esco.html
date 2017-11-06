@@ -460,7 +460,7 @@
                                     <button id="place-bid-button" type="submit" ng-if="allow_bidding" ng-click="post_bid()" class="btn btn-success" ng-class="{'active': form.active}" translate>Place a bid</button>
                                     <button id="edit-bid-button" type="submit" ng-if="!allow_bidding" ng-click="edit_bid()" class="btn btn-link" translate>Edit</button>
                                     <button id="cancel-bid-button" type="submit" ng-if="!allow_bidding" ng-click="post_bid(0, 0, -1)" class="btn btn-danger" ng-class="{'active': form.active}" translate>Cancel Bid</button>
-                                    <button id="clear-bid-button" type="submit" ng-if="allow_bidding" ng-click="($root.form.yearlyPaymentsPercentage = '');($root.form.contractDurationDays = '');($root.form.contractDurationYears = '');($root.form.bid_temp = null);($root.form.bid = null);calculate_full_price_temp();($root.form.full_price = null)" class="btn" translate>Clear</button>
+                                    <button id="clear-bid-button" type="submit" ng-if="allow_bidding" ng-click="($root.form.yearlyPaymentsPercentage = '');($root.form.contractDurationDays = '');($root.form.contractDurationYears = '');($root.form.bid_temp = null);($root.form.bid = null);($root.current_npv = null);calculate_full_price_temp();($root.form.full_price = null)" class="btn" translate>Clear</button>
                                 </div>
                             </div>
                         </div>

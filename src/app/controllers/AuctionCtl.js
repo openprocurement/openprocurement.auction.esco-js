@@ -550,9 +550,10 @@ angular.module('auction').controller('AuctionController', [
               $log.info({
                 message: "Handle cancel bid response on post bid"
               });
-              $rootScope.form.$rootScope.form.contractDurationYears = "";
+              $rootScope.current_npv = 0;
+              $rootScope.form.contractDurationYears = '';
               $rootScope.form.contractDurationDays = '';
-              $rootScope.form.$rootScope.form.yearlyPaymentsPercentage = '';
+              $rootScope.form.yearlyPaymentsPercentage = '';
 
             } else {
             $log.info({
