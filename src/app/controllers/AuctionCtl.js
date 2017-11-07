@@ -190,11 +190,11 @@ angular.module('auction').controller('AuctionController', [
       var response_timeout = $timeout(function() {
         $http.post(base_url + '/set_sse_timeout', {
           timeout: '7'
-        }).then((data) => {
+        }).then(function(data){
           $log.info({
             message: 'Handled set_sse_timeout on event source'
           });
-        }, (error) => {
+        }, function(error){
           $log.error("Error on setting sse_timeout " + error);
         });
         $log.info({
