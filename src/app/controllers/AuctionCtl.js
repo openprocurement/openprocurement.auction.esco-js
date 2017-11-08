@@ -190,11 +190,11 @@ angular.module('auction').controller('AuctionController', [
       var response_timeout = $timeout(function() {
         $http.post(base_url + '/set_sse_timeout', {
           timeout: '7'
-        }).then((data) => {
+        }).then(function(data){
           $log.info({
             message: 'Handled set_sse_timeout on event source'
           });
-        }, (error) => {
+        }, function(error){
           $log.error("Error on setting sse_timeout " + error);
         });
         $log.info({
@@ -326,7 +326,7 @@ angular.module('auction').controller('AuctionController', [
         if ($rootScope.restart_retries_events === 0) {
           $rootScope.evtSrc.close();
           $log.info({
-            message: "Handle event source stoped"
+            message: "Handle event source stopped"
           });
           if (!$rootScope.follow_login_allowed) {
             growl.info($filter('translate')('You are an observer and cannot bid.'), {
