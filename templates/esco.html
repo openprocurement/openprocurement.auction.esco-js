@@ -495,7 +495,7 @@
                 <p ng-repeat="item in auction_doc.items">
                     <span>{{ ( item['description_'+ lang] || item.description || item.description_en || item.description_ru || "-" ) | characters:100 :true }}</span> - {{ item.quantity|formatnumber }} <span>{{item.unit['name_'+ lang]||item.unit.name||item.unit['name_en']||item.unit['name_ru']||item.unit.code||"-" }}</span>
                 </p>
-                <p class="list-group-item-heading minimalStep" ng-if="auction_doc.minimalStepPercentage"><span translate>Step reduction of Bid</span>: <strong>{{ auction_doc.minimalStepPercentage|formatnumber }} &#37;</strong></p>
+                <p class="list-group-item-heading minimalStep" ng-if="auction_doc.minimalStepPercentage"><span translate>Step augmentation of Bid</span>: <strong>{{ auction_doc.minimalStepPercentage|formatnumber }} &#37;</strong></p>
               </li>
 
               <li ng-if="clients" class="list-group-item">
