@@ -371,7 +371,7 @@ angular.module('auction').factory('AuctionUtils', [
             ((new Date(announcement_date.getFullYear(), 11, 31) -
               new Date(announcement_date.getFullYear(), announcement_date.getMonth(), announcement_date.getDate())) /
               1000) / 86400); // calculate whole days
-        var days_for_discount_rate = ((new Array(1)).fill(first_year_days)).concat((new Array(npv_calculation_duration - 1)).fill(days_per_year));
+        var days_for_discount_rate = [first_year_days].concat(Array.apply(null, Array(npv_calculation_duration - 1)).map(function(){return days_per_year;}));
         days_for_discount_rate.push(days_per_year - first_year_days);
 
         // Calculate days with payments
@@ -383,9 +383,9 @@ angular.module('auction').factory('AuctionUtils', [
 
 
         var empty_periods_count = npv_calculation_duration + 1 - full_periods_count - 2;
-        var days_with_payments = [first_period_duration].concat((new Array(full_periods_count)).fill(days_per_year));
+        var days_with_payments = [first_period_duration].concat(Array.apply(null, Array(full_periods_count)).map(function(){return days_per_year;}));
         days_with_payments.push(last_period_duration);
-        days_with_payments = days_with_payments.concat(new Array(empty_periods_count).fill(0));
+        days_with_payments = days_with_payments.concat(Array.apply(null, Array(empty_periods_count)).map(function(){return 0;}));
 
         // Calculate payments
 
