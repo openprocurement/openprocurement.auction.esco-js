@@ -41,7 +41,7 @@ angular.module('auction').factory('AuctionUtils', [
         }
 
       }
-      if ((auction.stages[auction.current_stage].type || '') == "pre_announcement") {
+      if ((auction.stages[auction.current_stage].type || '') === "pre_announcement") {
         var client_time = new Date();
         var ends_time = new Date(auction.stages[auction.current_stage].start);
         if (client_time < ends_time) {
@@ -54,7 +54,7 @@ angular.module('auction').factory('AuctionUtils', [
           'msg_ending': 'Waiting for the disclosure of the participants\' names'
         };
       }
-      if ((auction.stages[auction.current_stage].type || '') == "announcement") {
+      if ((auction.stages[auction.current_stage].type || '') === "announcement") {
         var client_time = new Date();
         var ends_time = new Date(auction.stages[auction.current_stage - 1].start);
         if (client_time < ends_time) {
@@ -115,7 +115,7 @@ angular.module('auction').factory('AuctionUtils', [
 
     function prepare_progress_timer_data(current_time, auction) {
 
-      if ((((auction.stages[auction.current_stage] || {}).type || '').indexOf('announcement') != -1) || (auction.current_stage === -100) || (auction.current_stage === -101)) {
+      if ((((auction.stages[auction.current_stage] || {}).type || '').indexOf('announcement') !== -1) || (auction.current_stage === -100) || (auction.current_stage === -101)) {
         return {
           'countdown_seconds': false,
           'rounds_seconds': 0,
@@ -154,7 +154,7 @@ angular.module('auction').factory('AuctionUtils', [
       var vars = query.split('&');
       for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split('=');
-        if (decodeURIComponent(pair[0]) == 'bidder_id') {
+        if (decodeURIComponent(pair[0]) === 'bidder_id') {
           return decodeURIComponent(pair[1]);
         }
       }
@@ -241,7 +241,7 @@ angular.module('auction').factory('AuctionUtils', [
             }
           } else {
             round_elem.scrollIntoView(true);
-            var round_elem_dimensions = document.getElementById(scroll_tag_id).getBoundingClientRect()
+            var round_elem_dimensions = document.getElementById(scroll_tag_id).getBoundingClientRect();
             $window.scrollBy(0, round_elem_dimensions.top - 96);
           }
         }
@@ -347,11 +347,11 @@ angular.module('auction').factory('AuctionUtils', [
         }
         if (Browser.name === "IE"){
           if (parseFloat(Browser.major) < 10 ){
-              return true
+              return true;
             }
         }
         if (Browser.name === "Opera Mini"){
-           return true
+           return true;
         }
         return false;
     }
@@ -371,7 +371,7 @@ angular.module('auction').factory('AuctionUtils', [
             ((new Date(announcement_date.getFullYear(), 11, 31) -
               new Date(announcement_date.getFullYear(), announcement_date.getMonth(), announcement_date.getDate())) /
               1000) / 86400); // calculate whole days
-        var days_for_discount_rate = ((new Array(1)).fill(first_year_days)).concat((new Array(npv_calculation_duration - 1)).fill(days_per_year))
+        var days_for_discount_rate = ((new Array(1)).fill(first_year_days)).concat((new Array(npv_calculation_duration - 1)).fill(days_per_year));
         days_for_discount_rate.push(days_per_year - first_year_days);
 
         // Calculate days with payments
@@ -383,7 +383,7 @@ angular.module('auction').factory('AuctionUtils', [
 
 
         var empty_periods_count = npv_calculation_duration + 1 - full_periods_count - 2;
-        var days_with_payments = [first_period_duration].concat((new Array(full_periods_count)).fill(days_per_year))
+        var days_with_payments = [first_period_duration].concat((new Array(full_periods_count)).fill(days_per_year));
         days_with_payments.push(last_period_duration);
         days_with_payments = days_with_payments.concat(new Array(empty_periods_count).fill(0));
 
@@ -399,7 +399,7 @@ angular.module('auction').factory('AuctionUtils', [
                             math.fraction(annual_costs_reduction[i])
                         ),
                         math.fraction(days_with_payments[i], days_for_discount_rate[i])))
-            )
+            );
         }
 
         // Calculate income
@@ -412,7 +412,7 @@ angular.module('auction').factory('AuctionUtils', [
                         math.fraction(String(annual_costs_reduction[i])),
                         math.fraction(days_for_discount_rate[i], 365)
                     ),
-                    math.fraction(payments[i]))))
+                    math.fraction(payments[i]))));
         }
 
         // Calculate discount rate
@@ -424,7 +424,7 @@ angular.module('auction').factory('AuctionUtils', [
                     math.fraction(String(nbu_discount_rate)),
                     math.fraction(days_for_discount_rate[i], days_per_year)
                 )
-            )
+            );
         }
 
         // Calculate discounted_income
@@ -434,18 +434,18 @@ angular.module('auction').factory('AuctionUtils', [
         for (var i = 0; i < disc_rates.length; i++){
             var discRatePlusOneFraction = math.fraction(math.add(disc_rates[i].n, disc_rates[i].d), disc_rates[i].d);
             if (coefficient==1) {
-            coefficient = math.fraction(discRatePlusOneFraction.d, discRatePlusOneFraction.n)} else {
+            coefficient = math.fraction(discRatePlusOneFraction.d, discRatePlusOneFraction.n);} else {
                 coefficient = math.fraction(
                     math.multiply(coefficient.n, discRatePlusOneFraction.d),
                     math.multiply(coefficient.d, discRatePlusOneFraction.n)
-                )
+                );
             }
-            discounted_income_by_periods.push(math.multiply(coefficient, income[i]))}
+            discounted_income_by_periods.push(math.multiply(coefficient, income[i]));}
 
         // return sum of discounted income
         return math.sum(discounted_income_by_periods.map(
-            function(x) {return math.divide(math.bignumber(x.n), math.bignumber(x.d))}
-        )).toFixed(11)
+            function(x) {return math.divide(math.bignumber(x.n), math.bignumber(x.d));}
+        )).toFixed(11);
     }
 
     return {
