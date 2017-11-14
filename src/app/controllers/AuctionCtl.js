@@ -451,9 +451,11 @@ angular.module('auction').controller('AuctionController', [
       yearlyPaymentsPercentage = yearlyPaymentsPercentage || $rootScope.form.yearlyPaymentsPercentage || 0;
       $log.info({
         'message': "Start post bid",
-        'contractDuration': parseInt(contractDurationYears.toFixed()),
-        'contractDurationDays': parseInt(contractDurationDays.toFixed()),
-        'yearlyPaymentsPercentage': parseFloat((yearlyPaymentsPercentage / 100).toFixed(5))
+        'bid_data': JSON.stringify({
+          contractDuration: parseInt(contractDurationYears.toFixed()),
+          contractDurationDays: parseInt(contractDurationDays.toFixed()),
+          yearlyPaymentsPercentage: parseFloat((yearlyPaymentsPercentage / 100).toFixed(5))
+        })
       });
       if ($rootScope.form.BidsForm.$valid) {
         $rootScope.alerts = [];
@@ -545,7 +547,7 @@ angular.module('auction').controller('AuctionController', [
             } else {
             $log.info({
               message: "Handle success response on post bid",
-              bid_data: success.data.data
+              bid_data: JSON.stringify(success.data.data)
             });
             $rootScope.alerts.push({
               msg_id: msg_id,
