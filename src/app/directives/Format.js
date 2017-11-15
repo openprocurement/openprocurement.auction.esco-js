@@ -17,7 +17,7 @@ angular.module('auction').directive('format', ['$filter', function ($filter) {
       });
       ctrl.$parsers.unshift(function(viewValue) {
         if (viewValue) {
-          var plainNumber = Number((viewValue || "").replace(/ /g, '').replace(/,/g, "."));
+          var plainNumber = Number((String(viewValue) || "").replace(/ /g, '').replace(/,/g, "."));
           if (plainNumber >= 0) {
             var newviewValue = viewValue;
             ctrl.prev_value = viewValue;
