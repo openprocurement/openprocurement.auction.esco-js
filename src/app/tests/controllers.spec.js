@@ -2,7 +2,7 @@ describe('auctionTest', function () {
 
   beforeEach(module('auction'));
 
-  let controller, scope, AuctionUtils, rootScope;
+  var controller, scope, AuctionUtils, rootScope;
 
   beforeEach(inject(function(_$controller_, _$rootScope_, AuctionUtils){
     scope = _$rootScope_.$new();
