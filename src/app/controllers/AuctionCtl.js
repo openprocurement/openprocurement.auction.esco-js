@@ -374,6 +374,16 @@ angular.module('auction').controller('AuctionController', [
           $log.info({
             message: "Allow view bid form"
           });
+          if (!(window.localStorage.contractDurationYears && window.localStorage.contractDurationDays && window.localStorage.yearlyPaymentsPercentage)) {
+            $rootScope.auction_doc.results.forEach(function(item) {
+              if (item.bidder_id == $rootScope.bidder_id) {
+                $rootScope.bidder_value = item;
+                $rootScope.form.BidsForm.contractDurationYears.$setViewValue($rootScope.bidder_value.contractDurationYears);
+                $rootScope.form.BidsForm.contractDurationDays.$setViewValue($rootScope.bidder_value.contractDurationDays);
+                $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue($rootScope.bidder_value.yearlyPaymentsPercentage * 100);
+              }
+            });
+          }
           $rootScope.max_bid_amount();
           $rootScope.view_bids_form = true;
           return $rootScope.view_bids_form;
@@ -548,23 +558,28 @@ angular.module('auction').controller('AuctionController', [
               $log.info({
                 message: "Handle cancel bid response on post bid"
               });
+              window.localStorage.clear();
+              $rootScope.allow_bidding = true;
               $rootScope.current_npv = 0;
               $rootScope.form.contractDurationYears = '';
               $rootScope.form.contractDurationDays = '';
               $rootScope.form.yearlyPaymentsPercentage = '';
-
             } else {
-            $log.info({
-              message: "Handle success response on post bid",
-              bid_data: JSON.stringify(success.data.data)
-            });
-            $rootScope.alerts.push({
-              msg_id: msg_id,
-              type: 'success',
-              msg: 'Bid placed'
-            });
-            $rootScope.allow_bidding = false;
-            $rootScope.auto_close_alert(msg_id);
+              $log.info({
+                message: "Handle success response on post bid",
+                bid_data: JSON.stringify(success.data.data)
+              });
+              $rootScope.alerts.push({
+                msg_id: msg_id,
+                type: 'success',
+                msg: 'Bid placed'
+              });
+              $rootScope.allow_bidding = false;
+              $rootScope.auto_close_alert(msg_id);
+              var elements = document.getElementById("BidsForm").getElementsByTagName("input");
+              for(var index=0; index<elements.length; index++){
+                window.localStorage.setItem(elements[index].id, elements[index].value);
+              }
             }
           }
         }, function(error) {
@@ -842,9 +857,36 @@ angular.module('auction').controller('AuctionController', [
       $rootScope.calculate_minimal_bid_amount();
       $rootScope.scroll_to_stage();
       $rootScope.show_bids_form();
-
       $rootScope.$apply();
+      if ($rootScope.auction_doc.current_stage >= 0) {
+        if (window.localStorage.contractDurationYears && window.localStorage.contractDurationDays && window.localStorage.yearlyPaymentsPercentage) {
+          window.addEventListener('load', $rootScope.load_post_bid(), true);
+        }
+        if ($rootScope.auction_doc.stages[$rootScope.auction_doc.current_stage].type === 'pause') {
+          window.localStorage.clear();
+        }
+      }
     };
+
+    $rootScope.load_post_bid = function() {
+      var i = 0, key, element;
+      while (i < window.localStorage.length) {
+        key = window.localStorage.key(i++);
+        element = document.getElementById(key);
+        if (element) {
+          $rootScope.new_value = window.localStorage.getItem(key);
+          if (element.id === 'contractDurationDays') {
+            $rootScope.form.BidsForm.contractDurationDays.$setViewValue($rootScope.new_value);
+          } else if (element.id === 'contractDurationYears') {
+            $rootScope.form.BidsForm.contractDurationYears.$setViewValue($rootScope.new_value);
+          } else {
+            $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue($rootScope.new_value);
+          }
+          $rootScope.allow_bidding = false;
+        }
+      }
+    };
+
     $rootScope.calculate_rounds = function(argument) {
       $rootScope.Rounds = [];
       $rootScope.auction_doc.stages.forEach(function(item, index) {
