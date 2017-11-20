@@ -106,7 +106,9 @@ angular.module('auction').config(
     'savings': 'savings',
     'Normilized EIESC': 'Normilized EIESC:',
     'Current energy efficiency value of energy service contract': 'Current energy efficiency value of energy service contract',
-    'Calculated energy efficiency value of energy service contract': 'Calculated energy efficiency value of energy service contract'
+    'Calculated energy efficiency value of energy service contract': 'Calculated energy efficiency value of energy service contract',
+    'Auction has not started and will be rescheduled': 'Auction has not started and will be rescheduled',
+    'Please wait for the auction start.': 'Please wait for the auction start.'
   });
 
   $translateProvider.translations('uk', {
@@ -213,7 +215,9 @@ angular.module('auction').config(
     'savings': 'економії',
     'Normilized EIESC': 'Приведений ПЕД:',
     'Current energy efficiency value of energy service contract': 'Поточний показник енергоефективності енергосервісного договору',
-    'Calculated energy efficiency value of energy service contract': 'Приведений показник енергоефективності енергосервісного договору'
+    'Calculated energy efficiency value of energy service contract': 'Приведений показник енергоефективності енергосервісного договору',
+    'Auction has not started and will be rescheduled': 'Аукціон не розпочався і буде перепланований',
+    'Please wait for the auction start.': 'Будь ласка, дочекайтесь початку аукціону.'
   });
 
   $translateProvider.translations('ru', {
@@ -320,6 +324,8 @@ angular.module('auction').config(
     'savings': 'экономии',
     'Normilized EIESC': 'Приведенный ПЕД:',
     'Current energy efficiency value of energy service contract': 'Текущий показатель энергоэффективности энергосервисного договора',
-    'Calculated energy efficiency value of energy service contract': 'Рассчитанный показатель энергоэффективности энергосервисного договора'
+    'Calculated energy efficiency value of energy service contract': 'Рассчитанный показатель энергоэффективности энергосервисного договора',
+    'Auction has not started and will be rescheduled': 'Аукцион не начался и будет перепланирован',
+    'Please wait for the auction start.': 'Пожалуйста, дождитесь начала аукциона.'
   });
 });
