@@ -391,7 +391,7 @@ angular.module('auction').factory('AuctionUtils', [
 
         var payments = [];
         for (var i = 0; i < annual_costs_reduction.length; i++){
-            if (i == 0 && days_with_payments[i] == 0) {
+            if (days_with_payments[i] === 0) {
                 payments.push(math.fraction(0));
             }
             else {
@@ -409,10 +409,11 @@ angular.module('auction').factory('AuctionUtils', [
         }
 
         // Calculate income
-        if (announcement_date.getDate() === 31 && announcement_date.getMonth() === 11)
-            var income = [math.fraction(0)];
+        var income;
+        if (days_for_discount_rate[0] === 0)
+            income = [math.fraction(0)];
         else
-            var income = [math.subtract(math.fraction(String(annual_costs_reduction[0])), payments[0])];
+            income = [math.subtract(math.fraction(String(annual_costs_reduction[0])), payments[0])];
         for (var i = 1; i < annual_costs_reduction.length; i++){
             income.push(math.fraction(
                 math.subtract(
