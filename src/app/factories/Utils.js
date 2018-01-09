@@ -361,7 +361,7 @@ angular.module('auction').factory('AuctionUtils', [
         announcement_date, nbu_discount_rate,
         days_per_year, npv_calculation_duration){
         // Setup default parameters days per year and calculation duration
-        days_per_year = (typeof days_per_year !== 'undefined') ?  b : 365;
+        days_per_year = (typeof days_per_year !== 'undefined') ?  days_per_year : 365;
         npv_calculation_duration = (typeof npv_calculation_duration !== 'undefined') ?  npv_calculation_duration : 20;
 
         // Calculate discount rate days
