@@ -380,7 +380,7 @@ angular.module('auction').controller('AuctionController', [
                 $rootScope.bidder_value = item;
                 $rootScope.form.BidsForm.contractDurationYears.$setViewValue($rootScope.bidder_value.contractDurationYears);
                 $rootScope.form.BidsForm.contractDurationDays.$setViewValue($rootScope.bidder_value.contractDurationDays);
-                $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue($rootScope.bidder_value.yearlyPaymentsPercentage * 100);
+                $rootScope.form.BidsForm.yearlyPaymentsPercentage.$setViewValue(math.eval(math.format(math.fraction($rootScope.bidder_value.yearlyPaymentsPercentage * 100))));
               }
             });
           }
